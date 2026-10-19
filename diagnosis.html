@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Syspect — FPS & Thermal Diagnosis Engine</title>
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<style>@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;550;600;650;700&family=Manrope:wght@400;500;600;650;700;750;800&display=swap');
+:root{--bg:#f5f6f7;--paper:#fff;--ink:#1c2928;--muted:#747f80;--line:#e6eaea;--green:#24594d;--green-hover:#194638;--device-bg:#213f37;--pale:#eef5ed;--lime:#d8f1b0;--amber:#ae7630;--amber-bg:#fbf1e2;--danger:#b44335;--danger-bg:#fbeae8;--mono:ui-monospace,'Cascadia Code',Consolas,monospace}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font:16px/1.55 'DM Sans',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased}
+a,button{text-decoration:none;color:inherit;font:inherit;-webkit-tap-highlight-color:transparent}
+button:focus-visible,a:focus-visible{outline:3px solid #449b82;outline-offset:5px}
+svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.symbols{position:absolute;width:0;height:0;overflow:hidden}
+.topbar{height:90px;padding:0 4%;background:var(--paper);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:12px;color:var(--ink);font:800 29px 'Manrope',sans-serif;letter-spacing:-1.4px}
+.brand-icon{width:36px;height:36px;display:grid;place-items:center;background:var(--green);border-radius:10px;color:var(--lime)}
+.brand-icon svg{width:24px;height:24px;stroke-width:2}
+.brand-divider{width:1px;height:20px;background:#dce0df;margin:0 9px}
+.brand-caption{font:600 11px 'DM Sans',sans-serif;letter-spacing:1.6px;color:#87908f}
+.btn-home{font-size:13px;font-weight:600;color:#4c6b58;padding:8px 14px;border-radius:7px;border:1px solid var(--line);background:#fafbfa;transition:background .2s,border-color .2s}
+.btn-home:hover{background:var(--pale);border-color:#c8d8cc}
+.container{max-width:920px;margin:0 auto;padding:36px 20px 60px}
+.progress-container{background:var(--device-bg);color:#fff;border-radius:15px;padding:22px 28px;margin-bottom:24px;box-shadow:0 10px 25px #213f3709}
+.progress-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.progress-title{font-size:11px;font-weight:700;color:var(--lime);letter-spacing:1.6px;text-transform:uppercase}
+.progress-step{font:12px var(--mono);color:#b2c1b9}
+.progress-bar{height:6px;background:#ffffff19;border-radius:10px;overflow:hidden}
+.progress-fill{height:100%;background:var(--lime);border-radius:10px;transition:width .4s ease}
+.question-card,.results-card{background:var(--paper);border-radius:14px;padding:36px 38px;border:1px solid var(--line);box-shadow:0 10px 25px #213f3707;animation:slideUp .3s ease}
+@keyframes slideUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.step-label{display:inline-flex;align-items:center;gap:8px;background:var(--amber-bg);color:var(--amber);padding:5px 12px;border-radius:5px;font-size:12px;font-weight:650;margin-bottom:16px}
+.question-title{font:700 clamp(22px,2.2vw,28px)/1.3 'Manrope',sans-serif;letter-spacing:-.8px;margin-bottom:8px;color:var(--ink)}
+.question-subtitle{color:var(--muted);font-size:15px;margin-bottom:26px}
+.minidump-box{background:#f3f7ef;border:1px dashed #b8ccb9;border-radius:10px;padding:20px;text-align:center;margin-bottom:20px}
+.minidump-box p{font-size:13px;color:#4c6b58;margin-bottom:10px;font-weight:650}
+.file-input-wrapper{display:inline-block;position:relative}
+.file-input-wrapper input[type="file"]{position:absolute;left:0;top:0;opacity:0;width:100%;height:100%;cursor:pointer}
+.file-btn{background:var(--paper);border:1px solid #cdd9ce;color:var(--ink);padding:8px 16px;border-radius:7px;font:500 12px var(--mono);transition:.2s}
+.file-input-wrapper:hover .file-btn{border-color:var(--green);color:var(--green)}
+.code-search{width:100%;padding:13px 16px;background:#fafbfa;border:1px solid var(--line);border-radius:8px;color:var(--ink);font:14px var(--mono);margin-bottom:20px;transition:border-color .2s}
+.code-search:focus{outline:none;border-color:var(--green);background:var(--paper)}
+.input-group{margin-bottom:18px;text-align:left}
+.input-label{display:block;font-size:12px;color:#4c6b58;margin-bottom:6px;font-weight:700;letter-spacing:.4px;text-transform:uppercase}
+.custom-input,.custom-select{width:100%;padding:13px 15px;background:#fafbfa;border:1px solid var(--line);border-radius:8px;color:var(--ink);font:14px 'DM Sans',sans-serif;margin-bottom:10px}
+.custom-input:focus,.custom-select:focus{outline:none;border-color:var(--green);background:var(--paper)}
+.options{display:flex;flex-direction:column;gap:10px}
+.option{background:#fcfdfc;border:1px solid var(--line);border-radius:10px;padding:16px 20px;cursor:pointer;transition:all .2s ease;display:flex;align-items:center;gap:14px}
+.option:hover{border-color:#9ab3a6;background:#f6faf7}
+.option.selected{border-color:var(--green);background:var(--pale);box-shadow:0 0 0 1px var(--green)}
+.option-radio{width:20px;height:20px;border:1.5px solid #b5c2bc;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--paper)}
+.option.selected .option-radio{background:var(--green);border-color:var(--green)}
+.option.selected .option-radio::after{content:'✓';color:var(--lime);font-weight:bold;font-size:11px}
+.option-content{flex:1}
+.option-text{font:650 15px 'Manrope',sans-serif;color:var(--ink);margin-bottom:2px}
+.option-hint{font-size:13px;color:var(--muted);line-height:1.4}
+.nav-buttons{display:flex;justify-content:space-between;margin-top:28px;padding-top:20px;border-top:1px solid var(--line);gap:15px}
+.btn{padding:12px 24px;border-radius:7px;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:.2s}
+.btn-secondary{background:#f2f5f3;color:#4c6b58;border:1px solid #dce5df}
+.btn-secondary:hover{background:#e6ece8}
+.btn-primary{background:var(--green);color:#fff}
+.btn-primary:hover:not(:disabled){background:var(--green-hover);transform:translateY(-1px)}
+.btn-primary:disabled,.btn-diagnose:disabled{opacity:.45;cursor:not-allowed}
+.btn-diagnose{background:var(--green);width:100%;padding:14px 24px;font-size:15px;font-weight:650;color:#fff}
+.btn-diagnose:hover:not(:disabled){background:var(--green-hover)}
+.case-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+.case-id{color:var(--muted);font:600 13px var(--mono)}
+.severity-badge{display:inline-flex;align-items:center;gap:8px;padding:5px 12px;border-radius:4px;font-size:12px;font-weight:650}
+.severity-critical{background:var(--danger-bg);color:var(--danger)}
+.severity-moderate{background:var(--amber-bg);color:var(--amber)}
+.severity-minor{background:#f3f7ef;color:#5c7365}
+.system-profile{background:#fafbfa;border-radius:10px;padding:18px 20px;margin-bottom:24px;border:1px solid var(--line)}
+.section-title{font-size:11px;font-weight:700;color:#87918e;margin-bottom:14px;text-transform:uppercase;letter-spacing:1.4px}
+.profile-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:15px}
+.profile-item{display:flex;flex-direction:column;gap:2px}
+.profile-label{font-size:12px;color:var(--muted)}
+.profile-value{font:650 15px 'Manrope',sans-serif;color:var(--ink)}
+.diagnosis-main{background:var(--device-bg);color:#fff;border-radius:12px;padding:28px;text-align:center;margin:24px 0}
+.result-icon{font-size:42px;margin-bottom:10px}
+.result-title{font:700 24px 'Manrope',sans-serif;color:#fff;margin-bottom:8px;letter-spacing:-.6px}
+.result-desc{color:#c3d2c8;font-size:14px;max-width:540px;margin:0 auto;line-height:1.6}
+.evidence-box{background:#f3f7ef;border:1px solid #dde7d9;border-radius:10px;padding:20px;margin-bottom:26px}
+.evidence-list{list-style:none;display:flex;flex-direction:column;gap:10px}
+.evidence-item{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:#496355;line-height:1.5}
+.evidence-item::before{content:'✓';color:var(--green);font-weight:bold}
+.treatment-list{display:flex;flex-direction:column;gap:12px;margin-bottom:26px}
+.treatment-item{background:#fcfdfb;border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;align-items:flex-start;gap:14px}
+.treatment-number{width:24px;height:24px;border:1px solid #dde7d9;background:var(--pale);color:#5c7365;border-radius:50%;display:grid;place-items:center;font:600 11px var(--mono);flex-shrink:0}
+.treatment-text{flex:1;line-height:1.6;font-size:14px;color:var(--ink)}
+.btn-restart{margin-top:10px;width:100%;padding:14px;background:#f2f5f3;border:1px solid #dce5df;color:#4c6b58;font-weight:650;border-radius:7px;cursor:pointer;transition:.2s}
+.btn-restart:hover{background:var(--pale);border-color:var(--green);color:var(--green)}
+@media(max-width:640px){.topbar{height:72px}.brand-caption,.brand-divider{display:none}.question-card,.results-card{padding:22px}.nav-buttons{flex-direction:column;gap:10px}.btn{width:100%}}</style>
+<link rel="stylesheet" href="theme.css">
+<script src="theme.js"></script>
+<script src="i18n.js"></script>
+<link rel="stylesheet" href="account.css">
+<script src="account.js"></script>
+</head>
+<body>
+<svg class="symbols" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
+<symbol id="pulse" viewBox="0 0 24 24"><path d="M2 13h5l3-9 4 16 3-7h5"/></symbol>
+<symbol id="chip" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="3"/><rect x="9" y="9" width="6" height="6" rx="1"/><path d="M9 2v3m6-3v3M9 19v3m6-3v3M2 9h3m-3 6h3m14-6h3m-3 6h3"/></symbol>
+<symbol id="monitor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8m-4-4v4"/></symbol>
+<symbol id="arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+<symbol id="check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+<symbol id="alert" viewBox="0 0 24 24"><path d="m10 4-8 14a2 2 0 0 0 2 3h16a2 2 0 0 0 2-3L14 4a2.3 2.3 0 0 0-4 0Z"/><path d="M12 9v5m0 3v.1"/></symbol>
+<symbol id="layers" viewBox="0 0 24 24"><path d="m12 3 10 5-10 5L2 8l10-5Zm-10 9 10 5 10-5M2 16l10 5 10-5"/></symbol>
+<symbol id="clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+<symbol id="tool" viewBox="0 0 24 24"><path d="M14 5a6 6 0 0 0-7 8l-4 4a2.8 2.8 0 0 0 4 4l4-4a6 6 0 0 0 8-7l-4 3-4-4 3-4Z"/></symbol>
+<symbol id="close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
+<symbol id="info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v.1"/></symbol>
+</defs></svg>
+<header class="topbar">
+  <a class="brand" href="index.html"><span class="brand-icon"><svg><use href="#pulse"/></svg></span>syspect<span class="brand-divider"></span><span class="brand-caption">PC DIAGNOSTIC ENGINE</span></a>
+  <a href="dashboard.html" class="btn-home">← Back to Workspace</a>
+</header>
+<div class="container"><div id="app"></div></div>
+<script>
+const diagnosticModules = {
+  fpsDrops: {
+    id: 'fpsDrops', name: 'FPS Drops & Stuttering',
+    questions: [
+      { id: 'q1', step: 1, stepName: 'Symptom Analysis', stepIcon: '🔍', title: 'When do the FPS drops usually happen?', subtitle: 'Timing helps us understand if it is a heat, memory, or hardware capability issue.',
+        options: [
+          { text: 'Right from the beginning of the game', hint: 'Low FPS as soon as you load in', impacts: { hardwareBottleneck: { score: 30, evidence: "Performance is poor immediately upon launching games." } } },
+          { text: 'After 15-20 minutes of playing', hint: 'Starts fine, gets worse over time', impacts: { thermalThrottling: { score: 50, evidence: "Performance degrades after extended gameplay (15-20 mins)." } } },
+          { text: 'Randomly during fast action or explosions', hint: 'Sudden stutters and freezes', impacts: { thermalThrottling: { score: 30, evidence: "Stutters occur during high-intensity scenes and rapid rendering." }, hardwareBottleneck: { score: 20, evidence: "Frame spikes under burst shader workloads." } } }
+        ]
+      },
+      { id: 'q2', step: 2, stepName: 'Hardware Profile', stepIcon: '🌡️', title: 'What type of machine are you playing on?', subtitle: 'Form factor greatly influences cooling capacity and power delivery.',
+        options: [
+          { text: 'Desktop PC', hint: 'Standard tower case', profileTag: { label: 'Device', value: 'Desktop PC' }, impacts: {} },
+          { text: 'Gaming Laptop', hint: 'Portable gaming machine', profileTag: { label: 'Device', value: 'Gaming Laptop' }, impacts: { thermalThrottling: { score: 40, evidence: "Using a Gaming Laptop, which naturally has restricted airflow." } } }
+        ]
+      },
+      { id: 'q3', step: 3, stepName: 'System Resources', stepIcon: '🔬', title: 'Are your games installed on an SSD or HDD?', subtitle: 'Drive speed is the #1 cause of map-loading stutters.',
+        options: [
+          { text: 'HDD (Mechanical Drive)', hint: 'Older, slower spinning disks', profileTag: { label: 'Storage', value: 'HDD' }, impacts: { storageBottleneck: { score: 70, evidence: "Games are running on a slow mechanical hard drive (HDD)." } } },
+          { text: 'SSD or NVMe', hint: 'Fast solid-state storage', profileTag: { label: 'Storage', value: 'SSD' }, impacts: {} }
+        ]
+      }
+    ]
+  },
+  overheating: {
+    id: 'overheating', name: 'Thermal & Overheating Analysis',
+    questions: [
+      { id: 'q1', step: 1, stepName: 'Thermal Behavior', stepIcon: '🔥', title: 'When do your temperatures or fan speeds spike?', subtitle: 'Helps isolate idle cooling failures from sustained load thermal throttling.',
+        options: [
+          { text: 'Even while idle on the Windows desktop', hint: 'High temps with no games open', impacts: { thermalThrottling: { score: 60, evidence: "Elevated temperatures present even under idle desktop load." } } },
+          { text: 'After 15-20 minutes of gaming or rendering', hint: 'Heat builds up and causes FPS drops', impacts: { thermalThrottling: { score: 50, evidence: "Thermal saturation occurs after 15-20 minutes of sustained load." } } },
+          { text: 'Only in specific unoptimized titles', hint: 'High GPU/CPU utilization spikes', impacts: { hardwareBottleneck: { score: 30, evidence: "Thermal spikes correlate with 100% component utilization." } } }
+        ]
+      },
+      { id: 'q2', step: 2, stepName: 'Hardware Profile', stepIcon: '💻', title: 'What type of chassis are you using?', subtitle: 'Airflow geometry dictates heat dissipation efficiency.',
+        options: [
+          { text: 'Desktop PC', hint: 'Standard tower case', profileTag: { label: 'Device', value: 'Desktop PC' }, impacts: {} },
+          { text: 'Gaming Laptop', hint: 'Compact shared heatpipe cooling', profileTag: { label: 'Device', value: 'Gaming Laptop' }, impacts: { thermalThrottling: { score: 40, evidence: "Compact laptop chassis restricts thermal dissipation." } } }
+        ]
+      },
+      { id: 'q3', step: 3, stepName: 'Maintenance History', stepIcon: '🛠️', title: 'When was the last time fans/vents were cleaned or thermal paste replaced?', subtitle: 'Dust buildup and dried thermal paste are the primary causes of overheating.',
+        options: [
+          { text: 'Over 1 year ago / Never cleaned', hint: 'Likely dust accumulation or dry paste', profileTag: { label: 'Maintenance', value: 'Overdue' }, impacts: { thermalThrottling: { score: 50, evidence: "Cooling assembly has not been serviced in over a year." } } },
+          { text: 'Cleaned recently (within 6 months)', hint: 'Heatsinks and fans are clear', profileTag: { label: 'Maintenance', value: 'Recent' }, impacts: {} }
+        ]
+      }
+    ]
+  }
+};
+const diagnosesDB = {
+  thermalThrottling: { name: 'CPU/GPU Thermal Throttling', icon: '🔥', desc: 'Your system is intentionally reducing its performance to protect the hardware from heat damage.', treatments: ['Clean dust from vents, fans, and heatsinks.', 'Repaste the CPU/GPU if the device is over 2 years old.', 'If using a laptop, elevate the back or use a cooling pad.', 'Set fan profiles to "Aggressive" or "Performance" in your control center.'] },
+  storageBottleneck: { name: 'Storage Drive Bottleneck', icon: '💾', desc: 'Your hard drive cannot read game assets fast enough, causing the game to freeze while waiting for data.', treatments: ['Move your frequently played games to an SSD.', 'Defragment your HDD (Note: Never defragment an SSD).', 'Upgrade to an NVMe or SATA SSD for a massive performance boost.'] },
+  hardwareBottleneck: { name: 'Hardware Capability Limit', icon: '⚙️', desc: 'Your CPU or GPU is consistently hitting 100% usage and struggling to render the game frames.', treatments: ['Lower overall in-game graphics settings.', 'Enable upscaling technologies like NVIDIA DLSS or AMD FSR if supported.'] }
+};
+const reqMod = new URLSearchParams(window.location.search).get('module') || 'fpsDrops';
+let state = { currentScreen: 'questions', activeModule: diagnosticModules[reqMod] ? reqMod : 'fpsDrops', currentQuestion: 0, answers: {}, results: { caseId: '', systemProfile: [], diagnoses: {} } };
+function generateCaseId() { return 'SYS-' + Math.floor(10000 + Math.random() * 90000); }
+function calculateDiagnosis() {
+  const mod = diagnosticModules[state.activeModule];
+  state.results.diagnoses = {}; state.results.systemProfile = [];
+  mod.questions.forEach(q => {
+    const idx = state.answers[q.id];
+    if (idx !== undefined) {
+      const opt = q.options[idx];
+      if (opt.profileTag) state.results.systemProfile.push(opt.profileTag);
+      if (opt.impacts) Object.entries(opt.impacts).forEach(([k, d]) => {
+        if (!state.results.diagnoses[k]) state.results.diagnoses[k] = { score: 0, evidence: [] };
+        state.results.diagnoses[k].score += d.score;
+        state.results.diagnoses[k].evidence.push(d.evidence);
+      });
+    }
+  });
+  state.results.caseId = generateCaseId();
+}
+function render() {
+  const app = document.getElementById('app');
+  app.innerHTML = state.currentScreen === 'questions' ? renderQuestion() : renderResults();
+  document.querySelectorAll('.option').forEach(opt => {
+    opt.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); opt.click(); } });
+    opt.addEventListener('click', () => {
+      state.answers[diagnosticModules[state.activeModule].questions[state.currentQuestion].id] = parseInt(opt.dataset.index);
+      render();
+    });
+  });
+}
+function renderQuestion() {
+  const mod = diagnosticModules[state.activeModule];
+  const q = mod.questions[state.currentQuestion];
+  const progress = (state.currentQuestion / mod.questions.length) * 100;
+  const sel = state.answers[q.id];
+  return '<div class="progress-container"><div class="progress-header"><span class="progress-title">DIAGNOSIS: ' + mod.name.toUpperCase() + '</span><span class="progress-step">Step ' + (state.currentQuestion + 1) + ' / ' + mod.questions.length + '</span></div><div class="progress-bar"><div class="progress-fill" style="width:' + progress + '%"></div></div></div>' +
+    '<div class="question-card"><div class="step-label"><span>' + q.stepIcon + '</span>' + q.stepName + '</div><h2 class="question-title">' + q.title + '</h2><p class="question-subtitle">' + q.subtitle + '</p>' +
+    '<div class="options">' + q.options.map((opt, idx) => '<div role="button" tabindex="0" class="option ' + (sel === idx ? 'selected' : '') + '" data-index="' + idx + '"><div class="option-radio"></div><div class="option-content"><div class="option-text">' + opt.text + '</div><div class="option-hint">' + opt.hint + '</div></div></div>').join('') + '</div>' +
+    '<div class="nav-buttons"><button class="btn btn-secondary" onclick="prevQuestion()" ' + (state.currentQuestion === 0 ? 'style="visibility:hidden"' : '') + '>Back</button>' +
+    (state.currentQuestion === mod.questions.length - 1 ? '<button class="btn btn-diagnose" onclick="showResults()" ' + (sel === undefined ? 'disabled' : '') + '>Generate Report</button>' : '<button class="btn btn-primary" onclick="nextQuestion()" ' + (sel === undefined ? 'disabled' : '') + '>Continue</button>') + '</div></div>';
+}
+function renderResults() {
+  calculateDiagnosis();
+  const sorted = Object.entries(state.results.diagnoses).sort((a, b) => b[1].score - a[1].score);
+  const primaryKey = sorted[0] && diagnosesDB[sorted[0][0]] ? sorted[0][0] : 'hardwareBottleneck';
+  const primaryData = sorted[0] ? sorted[0][1] : { score: 0, evidence: ["No explicit analytical anomalies flagged."] };
+  const meta = diagnosesDB[primaryKey];
+  const sev = primaryData.score >= 80 ? ['critical', 'Critical'] : primaryData.score >= 40 ? ['moderate', 'Moderate'] : ['minor', 'Minor'];
+  return '<div class="results-card"><div class="case-header"><div class="case-id">Case #' + state.results.caseId + '</div><div class="severity-badge severity-' + sev[0] + '">Severity: ' + sev[1] + '</div></div>' +
+    '<div class="system-profile"><div class="section-title">System Metrics</div><div class="profile-grid">' + state.results.systemProfile.map(item => '<div class="profile-item"><span class="profile-label">' + item.label + '</span><span class="profile-value">' + item.value + '</span></div>').join('') + '</div></div>' +
+    '<div class="diagnosis-main"><div class="result-icon">' + meta.icon + '</div><div class="result-title">' + meta.name + '</div><div class="result-desc">' + meta.desc + '</div></div>' +
+    '<div class="evidence-box"><div class="section-title">Diagnostic Evidence</div><ul class="evidence-list">' + primaryData.evidence.map(e => '<li class="evidence-item">' + e + '</li>').join('') + '</ul></div>' +
+    '<div class="section-title">Targeted Remediation Plan</div><div class="treatment-list">' + meta.treatments.map((t, i) => '<div class="treatment-item"><div class="treatment-number">' + (i + 1) + '</div><div class="treatment-text">' + t + '</div></div>').join('') + '</div>' +
+    '<button class="btn btn-restart" onclick="restart()">Run New Scan</button></div>';
+}
+function nextQuestion() { if (state.currentQuestion < diagnosticModules[state.activeModule].questions.length - 1) { state.currentQuestion++; render(); } }
+function prevQuestion() { if (state.currentQuestion > 0) { state.currentQuestion--; render(); } }
+function showResults() { state.currentScreen = 'results'; render(); SyspectAccount.saveQuestionnaire(state.activeModule, state); }
+function restart() { state.currentScreen = 'questions'; state.currentQuestion = 0; state.answers = {}; render(); }
+render();
+</script>
+</body>
+</html>

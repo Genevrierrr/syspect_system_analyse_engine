@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Syspect — Professional System Diagnostics</title>
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<style>@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;550;600;650;700&family=Manrope:wght@400;500;600;650;700;750;800&display=swap');
+:root{--bg:#f5f6f7;--paper:#fff;--ink:#1c2928;--muted:#747f80;--line:#e6eaea;--green:#24594d;--green-hover:#194638;--device-bg:#213f37;--pale:#eef5ed;--lime:#d8f1b0;--amber:#ae7630;--amber-bg:#fbf1e2;--mono:ui-monospace,'Cascadia Code',Consolas,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);font:16px/1.55 'DM Sans',sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
+button,a{-webkit-tap-highlight-color:transparent;text-decoration:none;color:inherit;font:inherit}
+button:focus-visible,a:focus-visible{outline:3px solid #449b82;outline-offset:5px}
+svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.symbols{position:absolute;width:0;height:0;overflow:hidden}
+.topbar{height:90px;padding:0 4%;background:var(--paper);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:12px;color:var(--ink);font:800 29px 'Manrope',sans-serif;letter-spacing:-1.4px}
+.brand-icon{width:36px;height:36px;display:grid;place-items:center;background:var(--green);border-radius:10px;color:var(--lime)}
+.brand-icon svg{width:24px;height:24px;stroke-width:2}
+.brand-divider{width:1px;height:20px;background:#dce0df;margin:0 9px}
+.brand-caption{font:600 11px 'DM Sans',sans-serif;letter-spacing:1.6px;color:#87908f}
+.top-right{display:flex;align-items:center;gap:20px}
+.version{font:12px var(--mono);color:#8a9392;letter-spacing:.8px}
+.welcome-msg{font-size:14px;color:var(--muted)}
+.welcome-msg span{color:var(--ink);font-weight:700}
+.avatar{height:36px;width:36px;border-radius:50%;display:grid;place-items:center;background:#eef1ee;font-size:12px;font-weight:700;color:#496355;border:1px solid #dce3db}
+.btn-logout{font-size:13px;font-weight:600;color:var(--amber);background:var(--amber-bg);padding:6px 12px;border-radius:6px;transition:opacity .2s}
+.btn-logout:hover{opacity:.85}
+.button{border:0;border-radius:7px;padding:12px 18px;display:inline-flex;align-items:center;gap:11px;font-size:14px;font-weight:600;transition:background .2s,transform .2s;cursor:pointer}
+.button:hover{transform:translateY(-1px)}
+.primary{background:var(--green);color:#fff}
+.primary:hover{background:var(--green-hover)}
+.small-icon{width:16px;height:16px}
+main{max-width:1440px;width:100%;margin:0 auto;padding:39px 4% 0;flex:1}
+.page-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:31px;gap:20px;flex-wrap:wrap}
+.eyebrow{font-size:12px;letter-spacing:1.6px;font-weight:700;color:#87918e;text-transform:uppercase}
+h1{font:700 clamp(28px,3vw,42px)/1.25 'Manrope',sans-serif;letter-spacing:-1.7px;margin:7px 0 9px}
+h1>span{color:#6c9879}
+.page-heading p{color:var(--muted);font-size:15px;max-width:580px}
+.device-card{border-radius:15px;background:var(--device-bg);color:#fff;padding:28px 32px 0;position:relative;overflow:hidden;box-shadow:0 10px 25px #213f3709}
+.device-intro{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.device-icon{width:51px;height:51px;border:1px solid #557065;border-radius:12px;display:grid;place-items:center;color:var(--lime);background:#ffffff06}
+.device-icon svg{width:27px;height:27px}
+.card-kicker{font-size:11px;letter-spacing:1.8px;color:#bbd0c3;font-weight:600;display:block}
+.device-intro h2{font:650 21px 'Manrope',sans-serif;letter-spacing:-.5px;margin:2px 0}
+.device-sub{font-size:12px;color:#b2c1b9}
+.tag{display:inline-flex;align-items:center;border-radius:4px;font-size:12px;font-weight:600;line-height:1.5;padding:4px 10px;width:fit-content}
+.device-tag{margin-left:auto;align-self:flex-start;background:#ffffff0b;color:#c4d9c9;border:1px solid #ffffff19;font-weight:500;font-family:var(--mono)}
+.spec-grid{display:grid;grid-template-columns:repeat(4,1fr);margin:26px 0 22px;gap:24px}
+.spec{border-right:1px solid #ffffff16;padding-right:24px;display:flex;flex-direction:column;gap:4px}
+.spec:last-child{border:0}
+.spec>span{font-size:12px;color:#a3b7ac}
+.spec strong{font:600 clamp(17px,1.5vw,21px) 'Manrope',sans-serif;letter-spacing:-.3px;color:#f5f9f6}
+.spec em{font-size:16px;font-style:normal;font-weight:400;color:#c4d5ca}
+.spec small{font-size:12px;color:#a3b7ac}
+.device-bottom{display:flex;gap:24px;align-items:center;border-top:1px solid #ffffff16;padding:13px 0;font-size:12px;color:#c3d2c8;flex-wrap:wrap}
+.device-bottom>span:first-child{color:var(--lime);display:flex;align-items:center;gap:7px;font-weight:600}
+.device-bottom svg{width:15px;height:15px}
+.device-bottom .device-note{margin-left:auto;color:#8fa99b}
+.section-toolbar{display:flex;justify-content:space-between;align-items:center;margin-top:30px;padding-bottom:14px;border-bottom:1px solid #dce2e0;gap:12px}
+.toolbar-title{font:650 15px 'Manrope',sans-serif;color:#254e3e;display:flex;align-items:center;gap:8px}
+.toolbar-title span{padding:2px 7px;background:#e8eeea;color:#638174;border-radius:4px;font:11px var(--mono)}
+.demo-label{font-size:12px;display:flex;align-items:center;gap:7px;color:#82908a}
+.demo-label svg{width:14px;height:14px}
+.modules-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;padding:25px 0 0;align-items:stretch}
+.panel{background:var(--paper);padding:24px 20px 18px;border:1px solid var(--line);display:flex;flex-direction:column;margin-left:-1px;transition:background .2s,border-color .2s;position:relative}
+.panel:first-child{border-radius:12px 0 0 12px;margin-left:0}
+.panel:last-child{border-radius:0 12px 12px 0;background:#fcfdfb}
+.panel:hover{background:#fafcfa;z-index:2;border-color:#c8d6d0}
+.panel-title{display:flex;align-items:center;gap:10px;margin-bottom:18px;min-height:28px}
+.panel-title h2{font:650 16px 'Manrope',sans-serif;letter-spacing:-.2px;color:var(--ink)}
+.icon-tile{height:29px;width:29px;display:grid;place-items:center;background:#f2f5f3;color:#6b7f72;border-radius:6px;flex-shrink:0}
+.icon-tile svg{height:17px;width:17px}
+.icon-tile.amber{background:var(--amber-bg);color:var(--amber)}
+.icon-tile.green{background:var(--pale);color:var(--green)}
+.count{margin-left:auto;color:#9aa59e;font:12px var(--mono)}
+.amber-tag{background:var(--amber-bg);color:#9d6d32}
+.neutral-tag{background:#f0f3f2;color:#718177}
+.pale-tag,.status-ready{background:#f3f7ef;color:#5c7365}
+.module-heading,.module-title{font:650 20px 'Manrope',sans-serif;letter-spacing:-.6px;margin:16px 0 8px;color:var(--ink)}
+.module-desc{color:var(--muted);font-size:14px;line-height:1.65;margin-bottom:20px}
+.panel-meta{font-size:12px;color:#8a948f;font-family:var(--mono);margin-bottom:16px;display:flex;align-items:center;gap:6px}
+.code-dot{height:6px;width:6px;border-radius:50%;background:#729775;display:inline-block}
+.code-dot.amber{background:#b99862}
+.text-button{display:flex;align-items:center;justify-content:space-between;border:0;border-top:1px solid var(--line);padding:15px 0 0;background:none;font-size:13px;font-weight:650;color:#4c6b58;gap:8px;text-align:left;margin-top:auto;width:100%;cursor:pointer}
+.text-button svg{height:15px;width:15px;transition:transform .2s}
+.panel:hover .text-button svg{transform:translateX(4px)}
+.site-footer{border-top:1px solid #e2e7e3;margin-top:48px;padding:28px 0 32px;font-size:12px;color:#8b9690}
+.footer-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:24px;padding-bottom:20px;border-bottom:1px solid var(--line);margin-bottom:18px}
+.footer-brand h3{font:700 16px 'Manrope',sans-serif;color:var(--ink);margin-bottom:4px;letter-spacing:-.4px}
+.footer-brand p{color:var(--muted);font-size:13px}
+.footer-contact{display:flex;gap:28px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.footer-contact strong{display:block;font-size:11px;letter-spacing:1.2px;color:#87918e;text-transform:uppercase;margin-bottom:4px}
+.footer-contact a{color:var(--green);font-weight:600}
+.footer-bottom,footer{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+footer{border-top:1px solid #e2e7e3;margin-top:40px;padding:21px 0 25px;font-size:12px;color:#98a29b}
+.footer-mark{font:800 15px 'Manrope',sans-serif;color:#819885;margin-right:8px}
+.footer-slash{margin:0 10px;color:#c5ccc6}
+@media(max-width:1050px){.spec-grid,.modules-grid{grid-template-columns:repeat(2,1fr);gap:16px}.spec:nth-child(2){border-right:0}.panel,.panel:first-child,.panel:last-child{margin-left:0;border-radius:12px}}
+@media(max-width:650px){.topbar{height:72px}.brand-caption,.brand-divider,.version,.device-tag{display:none}.spec-grid,.modules-grid{grid-template-columns:1fr}.spec{border-right:0;padding-right:0}}</style>
+<link rel="stylesheet" href="theme.css">
+<script src="theme.js"></script>
+<script src="i18n.js"></script>
+<link rel="stylesheet" href="account.css">
+<script src="account.js"></script>
+</head>
+<body>
+<svg class="symbols" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
+<symbol id="pulse" viewBox="0 0 24 24"><path d="M2 13h5l3-9 4 16 3-7h5"/></symbol>
+<symbol id="chip" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="3"/><rect x="9" y="9" width="6" height="6" rx="1"/><path d="M9 2v3m6-3v3M9 19v3m6-3v3M2 9h3m-3 6h3m14-6h3m-3 6h3"/></symbol>
+<symbol id="monitor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8m-4-4v4"/></symbol>
+<symbol id="arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+<symbol id="check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+<symbol id="alert" viewBox="0 0 24 24"><path d="m10 4-8 14a2 2 0 0 0 2 3h16a2 2 0 0 0 2-3L14 4a2.3 2.3 0 0 0-4 0Z"/><path d="M12 9v5m0 3v.1"/></symbol>
+<symbol id="layers" viewBox="0 0 24 24"><path d="m12 3 10 5-10 5L2 8l10-5Zm-10 9 10 5 10-5M2 16l10 5 10-5"/></symbol>
+<symbol id="clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+<symbol id="tool" viewBox="0 0 24 24"><path d="M14 5a6 6 0 0 0-7 8l-4 4a2.8 2.8 0 0 0 4 4l4-4a6 6 0 0 0 8-7l-4 3-4-4 3-4Z"/></symbol>
+<symbol id="close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
+<symbol id="info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v.1"/></symbol>
+</defs></svg>
+<header class="topbar">
+  <a class="brand" href="index.html"><span class="brand-icon"><svg><use href="#pulse"/></svg></span>syspect<span class="brand-divider"></span><span class="brand-caption">PC DIAGNOSTIC ENGINE</span></a>
+  <div class="top-right"><span class="version">ENGINE / v3.0</span><a href="download.html" class="button primary">Download<svg class="small-icon"><use href="#arrow"/></svg></a><a href="login.html" class="button primary">Sign In<svg class="small-icon"><use href="#arrow"/></svg></a></div>
+</header>
+<main>
+  <div class="page-heading">
+    <div><div class="eyebrow">SYSTEM DIAGNOSTIC WORKSPACE</div><h1>Stop Guessing. <span>Start Fixing.</span></h1><p>The intelligent, rule-based diagnostic engine that pinpoints the root cause of your PC performance issues with evidence-backed analysis.</p></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap"><a href="Syspect.html" class="button primary"><svg><use href="#layers"/></svg>Run System Scan<svg class="small-icon"><use href="#arrow"/></svg></a><a href="download.html" class="button primary">Download Syspect<svg class="small-icon"><use href="#arrow"/></svg></a></div>
+  </div>
+  <section class="device-card">
+    <div class="device-intro"><div class="device-icon"><svg><use href="#monitor"/></svg></div><div><span class="card-kicker">DIAGNOSTIC ARCHITECTURE</span><h2>Evidence-Based Telemetry & Triage</h2><span class="device-sub">Windows · x64 Kernel & Hardware Correlation</span></div><span class="tag device-tag">Diagnostic Engine v3.0</span></div>
+    <div class="spec-grid">
+      <div class="spec"><span>FPS & Thermal</span><strong>Throttling <em>Scan</em></strong><small>GPU/CPU load & storage IOPS</small></div>
+      <div class="spec"><span>Crash Dump</span><strong>BSOD <em>Parser</em></strong><small>Minidump & BugCheck codes</small></div>
+      <div class="spec"><span>Boot & Latency</span><strong>Startup <em>Audit</em></strong><small>Fast Startup & disk health</small></div>
+      <div class="spec"><span>Kernel Workspace</span><strong>Deep <em>Analysis</em></strong><small>192 devices · PnP timeline</small></div>
+    </div>
+    <div class="device-bottom"><span><svg><use href="#check"/></svg>4 diagnostic modules active</span><span>Rule-based correlation matrix</span><span class="device-note">From data to evidence. From evidence to diagnosis.</span></div>
+  </section>
+  <div class="section-toolbar"><div class="toolbar-title">Diagnostic Modules <span>04</span></div><div class="demo-label"><svg><use href="#info"/></svg>Select a workspace module to begin triage</div></div>
+  <section class="modules-grid">
+    <a href="diagnosis.html?module=fpsDrops" class="panel"><div class="panel-title"><span class="icon-tile green"><svg><use href="#chip"/></svg></span><h2>Performance</h2><span class="count">01</span></div><span class="tag pale-tag">Active Module</span><h3 class="module-heading">FPS Drops & Stutters</h3><p class="module-desc">Identify thermal throttling, RAM limitations, and storage bottlenecks specifically in your gaming sessions.</p><div class="panel-meta"><span class="code-dot"></span>Thermal & Storage IOPS</div><span class="text-button">Launch Module <svg><use href="#arrow"/></svg></span></a>
+    <a href="bsod.html" class="panel"><div class="panel-title"><span class="icon-tile amber"><svg><use href="#alert"/></svg></span><h2>Crash Dump</h2><span class="count">02</span></div><span class="tag amber-tag">New: Minidump Analysis</span><h3 class="module-heading">Blue Screen (BSOD)</h3><p class="module-desc">Analyze crash codes, dump files, and system behavior to find faulty drivers or failing hardware components.</p><div class="panel-meta"><span class="code-dot amber"></span>BugCheck & Kernel Stack</div><span class="text-button">Launch Module <svg><use href="#arrow"/></svg></span></a>
+    <a href="inputlag.html" class="panel"><div class="panel-title"><span class="icon-tile"><svg><use href="#clock"/></svg></span><h2>System Latency</h2><span class="count">03</span></div><span class="tag pale-tag">Active Module</span><h3 class="module-heading">Slow Boot & System Lag</h3><p class="module-desc">Detect bloated startup registries, background malware, and physical drive degradation causing slow boots.</p><div class="panel-meta"><span class="code-dot"></span>Boot Pipeline & SMART</div><span class="text-button">Launch Module <svg><use href="#arrow"/></svg></span></a>
+    <a href="Syspect.html" class="panel"><div class="panel-title"><span class="icon-tile"><svg><use href="#layers"/></svg></span><h2>Kernel Telemetry</h2><span class="count">04</span></div><span class="tag neutral-tag">Workspace Preview</span><h3 class="module-heading">Deep System Analysis</h3><p class="module-desc">Perform a deep system analysis to obtain clearer results. Scans kernel-level processes, PnP timelines, and raw hardware data.</p><div class="panel-meta"><span class="code-dot amber"></span>vgk.sys · Event Correlation</div><span class="text-button">Open Report View <svg><use href="#arrow"/></svg></span></a>
+  </section>
+  <footer class="site-footer">
+    <div class="footer-top">
+      <div class="footer-brand"><h3>Erlik Studio &reg;</h3><p>Professional PC diagnostics and performance optimization solutions.</p></div>
+      <div class="footer-contact"><div><strong>E-posta</strong><a href="mailto:ibraamgk9@gmail.com">ibraamgk9@gmail.com</a></div><div><strong>Contact</strong><span>+90 xxx xxx xxxx</span></div><div><strong>Address</strong><span>Konya / Ereğli | Turkey</span></div></div>
+    </div>
+    <div class="footer-bottom"><span><span class="footer-mark">S</span>Veriden kanıta. Kanıttan teşhise.</span><span>&copy; 2026 Erlik Studio <span class="footer-slash">/</span> Syspect v3.0</span></div>
+  </footer>
+</main>
+</body>
+</html>

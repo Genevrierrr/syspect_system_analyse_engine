@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Syspect — Derin sistem analizi</title>
+  <meta name="description" content="Sistem bilgilerin, çökme analizi ve olayların tek bir çalışma alanında. Gerçek yerel tarama sonuçları.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%231f594c'/%3E%3Cpath d='M7 17h5l3-8 4 15 3-7h3' fill='none' stroke='%23d8f5aa' stroke-width='2.5'/%3E%3C/svg%3E">
+  <style>@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;550;600;650;700&family=Manrope:wght@400;500;600;650;700;750;800&display=swap');
+:root{--bg:#f5f6f7;--paper:#fff;--ink:#1c2928;--muted:#747f80;--line:#e6eaea;--green:#24594d;--pale:#eef5ed;--lime:#d8f1b0;--amber:#ae7630;--amber-bg:#fbf1e2;--mono:ui-monospace,'Cascadia Code',Consolas,monospace}*{box-sizing:border-box}body{margin:0;background:var(--bg);font:16px/1.55 'DM Sans',sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}button,a{-webkit-tap-highlight-color:transparent}button{font:inherit;cursor:pointer}button:focus-visible,a:focus-visible{outline:3px solid #449b82;outline-offset:5px}button{color:inherit}svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}.symbols{position:absolute;width:0;height:0;overflow:hidden}.topbar{height:90px;padding:0 4%;background:var(--paper);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink);font:800 29px 'Manrope',sans-serif;letter-spacing:-1.4px}.brand-icon{width:36px;height:36px;display:grid;place-items:center;background:var(--green);border-radius:10px;color:var(--lime)}.brand-icon svg{width:26px;height:26px;stroke-width:2}.brand-divider{width:1px;height:20px;background:#dce0df;margin:0 9px}.brand-caption{font:600 11px 'DM Sans',sans-serif;letter-spacing:1.6px;color:#87908f}.top-right{display:flex;align-items:center;gap:28px}.version{font:12px var(--mono);color:#8a9392;letter-spacing:.8px}.avatar{height:36px;width:36px;border-radius:50%;display:grid;place-items:center;background:#eef1ee;font-size:12px;font-weight:700;color:#496355;border:1px solid #dce3db}main{max-width:1650px;margin:0 auto;padding:39px 4% 0}.page-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:31px}.eyebrow{font-size:11px;letter-spacing:1.6px;font-weight:700;color:#87918e}h1{font:700 clamp(27px,2.7vw,39px)/1.3 'Manrope',sans-serif;letter-spacing:-1.7px;margin:7px 0 9px}h1>span{color:#6c9879}p{margin:0}.page-heading p{color:var(--muted);font-size:15px}.button{border:0;border-radius:7px;padding:12px 17px;display:flex;align-items:center;gap:11px;font-size:14px;font-weight:600;transition:background .2s,transform .2s}.button:hover{transform:translateY(-1px)}.primary{background:var(--green);color:#fff}.primary:hover{background:#194638}.small-icon{width:16px;height:16px;margin-left:12px}.device-card{border-radius:15px;background:#213f37;color:white;padding:27px 30px 0;position:relative;overflow:hidden;box-shadow:0 10px 25px #213f3709}.device-intro{display:flex;align-items:center;gap:16px}.device-icon{width:51px;height:51px;border:1px solid #557065;border-radius:12px;display:grid;place-items:center;color:var(--lime);background:#ffffff06}.device-icon svg{width:27px;height:27px}.card-kicker{font-size:10px;letter-spacing:1.8px;color:#bbd0c3;font-weight:500}.device-intro h2{font:600 21px 'Manrope',sans-serif;letter-spacing:-.5px;margin:2px 0}.device-sub{font-size:12px;color:#b2c1b9}.tag{display:inline-flex;align-items:center;border-radius:4px;font-size:11px;font-weight:600;line-height:1.5;padding:4px 8px;width:fit-content}.device-tag{margin-left:auto;align-self:flex-start;background:#ffffff0b;color:#c4d9c9;border:1px solid #ffffff19;font-weight:400;padding:5px 10px}.spec-grid{display:grid;grid-template-columns:1.35fr 1fr 1.15fr 1fr;margin:25px 0 22px;gap:24px}.spec{border-right:1px solid #ffffff16;padding-right:24px;display:flex;flex-direction:column;gap:4px}.spec:last-child{border:0}.spec>span{font-size:12px;color:#a3b7ac}.spec strong{font:550 clamp(17px,1.55vw,22px) 'Manrope',sans-serif;letter-spacing:-.3px;color:#f5f9f6}.spec em{font-size:17px;font-style:normal;font-weight:400;color:#c4d5ca}.spec small{font-size:11px;color:#a3b7ac}.device-bottom{display:flex;gap:24px;align-items:center;border-top:1px solid #ffffff16;padding:12px 0;font-size:11px;color:#c3d2c8}.device-bottom>span:first-child{color:var(--lime);display:flex;align-items:center;gap:7px}.device-bottom svg{width:13px;height:13px}.device-bottom .device-note{margin-left:auto;color:#8fa99b}.section-toolbar{display:flex;justify-content:space-between;align-items:center;margin-top:29px;border-bottom:1px solid #dce2e0;gap:12px}.tablist{display:flex;gap:28px}.tablist button{font-size:14px;font-weight:500;padding:13px 0 16px;border:0;border-bottom:2px solid transparent;background:none;color:#7a8581;white-space:nowrap}.tablist button[aria-selected=true]{color:#254e3e;border-bottom-color:#254e3e;font-weight:650}.tablist button>span{padding:2px 6px;background:#e8eeea;color:#638174;border-radius:4px;margin-left:5px;font:10px var(--mono)}.demo-label{font-size:11px;display:flex;align-items:center;gap:7px;color:#82908a}.demo-label svg{width:13px;height:13px}.demo-separator{margin:0 3px;color:#cad1cd}.analysis-grid{display:grid;grid-template-columns:.9fr 1.08fr 1.13fr 1.17fr 1.13fr;gap:0;padding:25px 0 0;align-items:stretch}.panel,.summary-panel{min-width:0}.panel{background:var(--paper);padding:20px 18px 15px;border:1px solid var(--line);display:flex;flex-direction:column;margin-left:-1px}.crash-panel{border-radius:12px 0 0 12px}.next-panel{border-radius:0 12px 12px 0;background:#fcfdfb}.summary-panel{padding:20px 23px 0 0}.panel-title{display:flex;align-items:center;gap:8px;margin-bottom:22px;min-height:28px}.panel-title>svg{color:#426652;width:18px}.panel-title h2{font:650 14px 'Manrope',sans-serif;letter-spacing:-.15px;margin:0;white-space:nowrap}.icon-tile{height:29px;width:29px;display:grid;place-items:center;background:#f2f5f3;color:#6b7f72;border-radius:6px}.icon-tile svg{height:17px;width:17px}.icon-tile.amber{background:var(--amber-bg);color:var(--amber)}.count{margin-left:auto;color:#9aa59e;font:11px var(--mono)}.summary-ring{position:relative;width:125px;height:125px;margin:13px auto 18px}.summary-ring>svg{height:125px;width:125px;transform:rotate(-90deg);stroke-width:3.5}.ring-track{stroke:#dce5dd}.ring-value{stroke:#729775;stroke-dasharray:253 321}.summary-ring>div{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column}.summary-ring strong{font:500 44px 'Manrope',sans-serif;letter-spacing:-2px}.summary-ring span{font-size:12px;color:var(--muted);margin-top:-3px}.summary-panel h3{font:650 18px 'Manrope',sans-serif;letter-spacing:-.6px;margin:0 0 8px}.summary-panel>p{font-size:13px;line-height:1.65;color:var(--muted);max-width:180px}.completion-list{list-style:none;padding:0;margin:20px 0 23px;display:grid;gap:10px;font-size:12px;color:#5c7365}.completion-list li{display:flex;align-items:center;gap:8px}.completion-list svg{width:13px;height:13px;stroke-width:2}.summary-foot{color:#8b9690;font-size:10px;white-space:nowrap}.summary-foot span{margin:0 3px}.amber-tag{background:var(--amber-bg);color:#9d6d32}.neutral-tag{background:#f0f3f2;color:#718177;font-size:10px}.bugcode{font:500 clamp(15px,1.6vw,22px) var(--mono);letter-spacing:-.7px;margin:19px 0 8px}.mono{font-family:var(--mono)}.bugname{color:#86918b;font-size:10px;line-height:1.6;letter-spacing:.1px}.mini-rule{height:1px;background:var(--line);margin:24px 0 21px}.label{font-size:9px;letter-spacing:1.3px;font-weight:600;color:#86968c}.module-name{font:600 23px 'Manrope',sans-serif;letter-spacing:-.9px;margin:5px 0;display:flex;align-items:center;gap:9px}.code-dot{height:6px;width:6px;border-radius:50%;background:#b99862}.muted{color:var(--muted);font-size:12px}.date-line{display:flex;align-items:center;gap:5px;font-size:10px;color:#8a948f;margin-top:21px}.date-line svg{width:13px;height:13px}.panel-note{color:#939d97;font-size:11px;line-height:1.6;margin:18px 0 20px}.text-button{display:flex;align-items:center;justify-content:space-between;border:0;border-top:1px solid var(--line);padding:15px 0 0;background:none;font-size:11px;font-weight:650;color:#4c6b58;gap:8px;text-align:left;margin-top:auto;width:100%}.text-button svg{height:15px;width:15px;transition:transform .2s}.text-button:hover svg{transform:translateX(4px)}.panel-description{font-size:11px;color:#939d97;margin:13px 0 7px}.driver-row{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid #f0f2ef}.driver-row:last-of-type{border:0}.driver-initial{background:#eaf2e5;color:#5a8b3d;width:29px;height:29px;border-radius:7px;display:grid;place-items:center;font-weight:750;font-size:13px;flex-shrink:0}.driver-initial.intel{color:#5b84ab;background:#edf3f8;font:italic 650 19px Georgia,serif}.driver-row h3{margin:0;font-size:12px;font-weight:550}.driver-row .mono{display:block;font-size:10px;color:#8c9990}.driver-row small{font-size:10px;color:#a5ada7}.finding{display:flex;gap:8px;margin:0 0 21px}.severity{width:5px;height:5px;border-radius:50%;margin-top:7px;flex-shrink:0}.amber-dot{background:#c09a5e}.blue-dot{background:#7792a2}.finding h3{font-size:12px;font-weight:550;line-height:1.5;margin:0 0 3px}.finding p{color:#929d95;font-size:11px}.calm-note{display:flex;gap:7px;color:#69816b;background:#f3f7ef;padding:10px 8px;border-radius:5px;font-size:10px;margin:0 0 24px}.calm-note svg{width:13px;height:13px;margin-top:2px}.steps{display:grid;gap:23px}.step{display:flex;gap:10px}.step>span{width:23px;height:23px;border-radius:50%;border:1px solid #dde7d9;display:grid;place-items:center;flex-shrink:0;color:#73826d;font:10px var(--mono)}.step h3{font-size:12px;font-weight:600;margin:2px 0 6px}.step p{font-size:11px;color:#8c978d;line-height:1.65}.manual-note{font-size:10px;color:#939f93;margin:22px 0 20px}footer{display:flex;justify-content:space-between;align-items:center;border-top:1px solid #e2e7e3;margin-top:33px;padding:21px 0 25px;font-size:11px;color:#98a29b}footer>span:first-child{display:flex;align-items:center;gap:9px}.footer-mark{font:800 15px 'Manrope',sans-serif;color:#819885}.footer-slash{margin:0 10px;color:#c5ccc6}#timeline{background:white;border:1px solid var(--line);border-radius:12px;margin-top:25px;padding:27px 30px}.timeline-header{display:flex;justify-content:space-between;gap:20px;align-items:center;border-bottom:1px solid var(--line);padding-bottom:22px}.timeline-header h2{font:650 25px 'Manrope',sans-serif;letter-spacing:-.7px;margin:6px 0}.timeline-header p{font-size:13px;color:var(--muted)}.timeline-grid{display:grid;grid-template-columns:1fr 2fr;gap:50px;margin-top:32px}.timeline-summary{padding-right:32px;border-right:1px solid var(--line)}.time-big{display:block;font:500 30px var(--mono);letter-spacing:-1px;margin:10px 0 13px}.time-big>span{font-size:18px;color:#8ca291}.timeline-summary>p{font-size:14px;color:var(--muted);margin-top:20px}.timeline-summary dl{margin:25px 0 15px}.timeline-summary dl>div{display:flex;justify-content:space-between;border-top:1px solid var(--line);padding:11px 0;font-size:13px}.timeline-summary dd{font-family:var(--mono)}.timeline-summary small{font-size:12px;color:#8a998f}.event{display:grid;grid-template-columns:120px 16px 1fr;gap:18px;position:relative;padding-bottom:27px}.event time{font:12px var(--mono);color:#83948a;margin-top:5px}.event-dot{height:9px;width:9px;margin-top:7px;border:2px solid #a9bcae;border-radius:50%;background:white;z-index:1}.event:after{content:'';position:absolute;top:16px;bottom:-7px;left:141px;border-left:1px solid #dce5df}.event:last-child:after{display:none}.event:last-child{padding-bottom:0}.crash-dot{background:#b48a4d;border-color:#b48a4d}.event h3{font-size:15px;font-weight:550;margin:3px 0}.event p{color:var(--muted);font-size:12px}.timeline-disclaimer{display:flex;align-items:center;gap:8px;font-size:12px;color:#8a978d;border-top:1px solid var(--line);padding-top:20px;margin-top:25px}.timeline-disclaimer svg{width:15px;height:15px}dialog{border:1px solid #dde5df;border-radius:16px;max-width:540px;width:calc(100% - 32px);padding:27px 30px;box-shadow:0 20px 100px #142d3930;color:var(--ink);max-height:85vh;overflow-y:auto}dialog::backdrop{background:#112e2666;backdrop-filter:blur(4px)}.dialog-top{display:flex;align-items:center;justify-content:space-between}.icon-button{width:32px;height:32px;border:0;border-radius:50%;background:#f2f5f1;display:grid;place-items:center}.icon-button svg{width:18px;height:18px}dialog h2{font:650 27px 'Manrope',sans-serif;letter-spacing:-.8px;margin:20px 0}#dialog-content p{color:#6e7d73;font-size:15px;line-height:1.7;margin:12px 0}#dialog-content dl>div{display:flex;justify-content:space-between;gap:24px;border-top:1px solid var(--line);padding:12px 0;font-size:14px}#dialog-content dt{color:var(--muted)}#dialog-content dd{margin:0;text-align:right;overflow-wrap:anywhere}.dialog-done{margin:22px 0 0 auto}.dialog-callout{background:#f1f5ed;padding:12px 15px;border-radius:8px}#dialog-content code{font-size:13px}#dialog-content li{margin:10px 0;color:#6e7d73;font-size:14px}[hidden]{display:none!important}
+@media(min-width:1500px){.panel{padding:23px}.panel-title h2{font-size:16px}.finding h3,.step h3,.driver-row h3{font-size:14px}.panel-note,.finding p,.step p{font-size:13px}.text-button{font-size:13px}.summary-panel>p{font-size:14px}.completion-list{font-size:14px}.analysis-grid{min-height:470px}}
+@media(max-width:1100px){.analysis-grid{grid-template-columns:repeat(2,1fr);gap:16px}.summary-panel{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:12px;padding:14px 20px;background:#edf2ec;border-radius:12px;position:relative}.summary-panel .panel-title{margin:0}.summary-ring{display:none}.summary-panel h3{display:none}.summary-panel>p{max-width:none;grid-column:1}.completion-list{grid-column:2;grid-row:1/4;margin:0}.summary-foot{font-size:12px}.panel{margin:0;border-radius:12px;padding:23px}.panel-title h2{font-size:16px}.panel-description,.panel-note,.finding p,.step p,.manual-note{font-size:13px}.finding h3,.step h3,.driver-row h3{font-size:14px}.text-button{font-size:14px}.date-line{font-size:12px}.driver-row .mono,.driver-row small{font-size:12px}.calm-note{font-size:12px}.bugname{font-size:12px}.label{font-size:11px}.bugcode{font-size:24px}.panel-title{margin-bottom:18px}.next-panel .steps{gap:25px}.demo-label{font-size:11px}.demo-label>span:last-child,.demo-separator{display:none}.brand-caption{font-size:10px}.spec-grid{gap:16px}.spec{padding-right:16px}.timeline-grid{gap:25px}.event{grid-template-columns:100px 10px 1fr;gap:12px}.event:after{left:115px}}
+@media(max-width:650px){.topbar{height:72px;padding:0 6%}.brand{font-size:25px}.brand-caption,.brand-divider,.version{display:none}main{padding:28px 5% 0}.page-heading{align-items:flex-start;gap:12px}.page-heading p{font-size:13px;max-width:240px}.page-heading .button{font-size:0;padding:11px;margin-top:22px}.page-heading .button svg{width:18px}.page-heading .button .small-icon{display:none}h1{font-size:27px;letter-spacing:-1.2px}.eyebrow{font-size:10px}.device-card{padding:22px 20px 0}.device-intro{gap:10px}.device-intro h2{font-size:18px}.device-tag{display:none}.spec-grid{grid-template-columns:1fr 1fr;gap:24px 16px;margin:25px 0}.spec{border:0}.spec strong{font-size:16px;line-height:1.5}.spec>span,.spec small{font-size:12px}.spec em{font-size:14px}.device-bottom{flex-wrap:wrap;gap:8px 15px;font-size:12px}.device-bottom .device-note{margin-left:0;width:100%;font-size:11px}.section-toolbar{flex-wrap:wrap;margin-top:20px;gap:0}.tablist{width:100%;justify-content:space-between;gap:16px}.demo-label{padding:10px 0;font-size:12px}.demo-label>span:last-child,.demo-separator{display:inline}.analysis-grid{grid-template-columns:1fr;padding-top:17px}.summary-panel{padding:18px;gap:12px;grid-template-columns:1fr}.summary-panel>p{font-size:14px}.completion-list{grid-column:1;grid-row:auto;grid-template-columns:1fr;font-size:14px}.summary-foot{margin-top:6px}.summary-panel .panel-title h2{font-size:16px}.panel{padding:24px}.panel-title h2{font-size:17px}.tag,.neutral-tag{font-size:12px}.panel-note,.panel-description,.finding p,.step p,.manual-note{font-size:14px}.finding h3,.step h3,.driver-row h3{font-size:15px}.calm-note{font-size:13px}.text-button{padding-top:16px}.driver-row{padding:15px 0}.date-line{font-size:13px}.timeline-header{align-items:flex-start;flex-direction:column}.timeline-grid{grid-template-columns:1fr}.timeline-summary{border-right:0;padding:0 0 25px;border-bottom:1px solid var(--line)}#timeline{padding:23px 18px}.event{grid-template-columns:12px 1fr;padding-left:0;gap:8px}.event time{grid-column:2;font-size:12px}.event-dot{grid-row:1;grid-column:1}.event>div{grid-column:2}.event:after{left:3px;top:16px}.event h3{font-size:14px}.event p{font-size:12px}.timeline-disclaimer{align-items:flex-start}.time-big{font-size:28px}footer{font-size:10px;gap:15px}footer>span:first-child{max-width:200px}dialog{padding:23px}}
+/* Keep dense report information readable without changing the reference layout. */
+.brand-caption,.version,.eyebrow,.card-kicker,.device-sub,.spec>span,.spec small,.device-bottom,.tag,.neutral-tag,.count,.summary-foot,.bugname,.label,.date-line,.driver-row .mono,.driver-row small,.manual-note,.demo-label,footer{font-size:12px}
+.panel-title h2{font-size:16px;white-space:normal}.panel-title{align-items:center}.summary-panel>p,.completion-list,.panel-note,.panel-description,.finding p,.step p,.text-button,.muted,.calm-note{font-size:14px}.finding h3,.step h3,.driver-row h3{font-size:14px}.panel-title .icon-tile{width:26px;height:26px;flex-shrink:0}.summary-foot{white-space:normal}.finding{margin-bottom:19px}.panel-note{margin-top:18px}.panel{padding-left:17px;padding-right:17px}.driver-row{gap:8px}.driver-row small{display:block}.step{gap:8px}.steps{gap:19px}.manual-note{line-height:1.7}.spec-grid{margin-bottom:24px}.analysis-grid{min-height:525px}.calm-note{font-size:12px}.summary-ring{margin-top:25px}.device-bottom svg{width:15px;height:15px}.timeline-summary small,.timeline-header p,.event p,.timeline-disclaimer{font-size:14px}.event time{font-size:12px}.timeline-summary dl>div{font-size:14px}
+@media(max-width:650px){.analysis-grid{min-height:0}.panel{padding:24px}.brand-caption,.version{display:none}.page-heading .eyebrow{font-size:10px}.demo-label{flex-wrap:wrap}.panel-title h2{font-size:18px}.device-sub,.spec small{font-size:12px}.device-bottom{font-size:12px}.summary-panel>p{font-size:14px}footer{font-size:11px}.timeline-header h2{font-size:24px}.time-big{font-size:28px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+
+
+/* Live scan workspace */
+.connection-box{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;background:#eef5ed;border:1px solid #dce7da;padding:18px 22px;border-radius:12px;margin-bottom:24px}.connection-box p{font-size:14px;color:#52645a;margin-top:4px}.connection-box.has-error{background:#fff3e6;border-color:#e8c99e}.connection-box progress{width:100%;height:6px;accent-color:var(--green)}button:disabled{opacity:.55;cursor:wait;transform:none}.live-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;min-height:0;padding-bottom:24px}.live-grid .panel{margin:0;border:1px solid var(--line);border-radius:12px;padding:24px}.live-details{margin:20px 0}.live-details>div{display:flex;justify-content:space-between;gap:16px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}.live-details dt{color:var(--muted)}.live-details dd{margin:0;text-align:right;overflow-wrap:anywhere;max-width:65%}.metric{font-size:38px;font-weight:600}.spec strong{overflow-wrap:anywhere}.report-panel{background:#213f37;border:1px solid var(--line);border-radius:12px;padding:24px;margin-top:24px}.report-heading{display:flex;justify-content:space-between;gap:20px;align-items:center}.report-heading h2{font-size:19px;margin:0 0 6px}.report-heading p{font-size:14px;color:var(--muted)}summary{cursor:pointer;margin-top:20px;font-weight:600}pre{white-space:pre-wrap;overflow-wrap:anywhere;max-height:600px;overflow:auto;padding:18px;background:#f5f6f7;font:12px/1.7 var(--mono)}#findings p{margin-top:14px}#scan-state{font-size:16px}@media(max-width:1000px){.live-grid{grid-template-columns:1fr 1fr}.live-grid .panel:last-child{grid-column:1/-1}}@media(max-width:650px){.live-grid{grid-template-columns:1fr}.page-heading{flex-direction:column}.page-heading .button{font-size:14px;margin-top:6px}.report-heading{flex-direction:column;align-items:flex-start}.connection-box{padding:16px}.device-card{margin-top:8px}}
+</style>
+<link rel="stylesheet" href="theme.css">
+<script src="theme.js"></script>
+<script src="i18n.js"></script>
+<link rel="stylesheet" href="account.css">
+<script src="account.js"></script>
+</head>
+<body>
+<svg class="symbols" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
+<symbol id="pulse" viewBox="0 0 24 24"><path d="M2 13h5l3-9 4 16 3-7h5"/></symbol>
+<symbol id="chip" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="3"/><rect x="9" y="9" width="6" height="6" rx="1"/><path d="M9 2v3m6-3v3M9 19v3m6-3v3M2 9h3m-3 6h3m14-6h3m-3 6h3"/></symbol>
+<symbol id="monitor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8m-4-4v4"/></symbol>
+<symbol id="arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+<symbol id="check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+<symbol id="alert" viewBox="0 0 24 24"><path d="m10 4-8 14a2 2 0 0 0 2 3h16a2 2 0 0 0 2-3L14 4a2.3 2.3 0 0 0-4 0Z"/><path d="M12 9v5m0 3v.1"/></symbol>
+<symbol id="layers" viewBox="0 0 24 24"><path d="m12 3 10 5-10 5L2 8l10-5Zm-10 9 10 5 10-5M2 16l10 5 10-5"/></symbol>
+<symbol id="clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+<symbol id="tool" viewBox="0 0 24 24"><path d="M14 5a6 6 0 0 0-7 8l-4 4a2.8 2.8 0 0 0 4 4l4-4a6 6 0 0 0 8-7l-4 3-4-4 3-4Z"/></symbol>
+<symbol id="close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
+<symbol id="info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v.1"/></symbol>
+</defs></svg>
+<header class="topbar"><a class="brand" href="index.html" aria-label="Syspect ana sayfa"><span class="brand-icon"><svg><use href="#pulse"/></svg></span>syspect<span class="brand-divider"></span><span class="brand-caption">PC DIAGNOSTIC ENGINE</span></a><div class="top-right"><span class="version">WORKSPACE / 01</span><span class="avatar" aria-label="Yerel çalışma alanı">PC</span></div></header>
+<main>
+<div class="page-heading"><div><div class="eyebrow">SİSTEM ÇALIŞMA ALANI</div><h1>Derin sistem analizi<span>.</span></h1><p>Bilgisayarının durumu, kanıtlarıyla birlikte.</p></div><button class="button primary" id="scan-button">Taramayı başlat <svg><use href="#arrow"/></svg></button></div>
+<section class="connection-box" aria-label="Tarama durumu"><div><strong id="scan-state" role="status" aria-live="polite">Bağlantı kontrol ediliyor…</strong><p id="scan-message">Yerel tarama servisi aranıyor.</p></div><button class="button" id="connection-button">Bağlantıyı kontrol et</button><progress id="scan-progress" aria-label="Tarama sürüyor" hidden></progress></section>
+<noscript>Tarama için tarayıcınızda JavaScript açık olmalı.</noscript>
+<p id="saved-scan-note" hidden style="margin:16px 0">Tarama kaydedildi. <a href="history.html">Tarama geçmişini aç →</a></p>
+<section class="device-card" aria-labelledby="device-title"><div class="device-intro"><div class="device-icon"><svg><use href="#monitor"/></svg></div><div><span class="card-kicker">CİHAZ BİLGİLERİ</span><h2 id="device-title">Senin bilgisayarın</h2><span class="device-sub" id="architecture">Henüz taranmadı</span></div><span class="tag device-tag" id="source-label">Tarama bekleniyor</span></div><div class="spec-grid"><div class="spec"><span>İşlemci</span><strong id="cpu">—</strong><small id="processors">Henüz taranmadı</small></div><div class="spec"><span>Bellek</span><strong id="ram">—</strong><small>Toplam fiziksel kapasite</small></div><div class="spec"><span>Ekran kartı</span><strong id="gpu">—</strong><small id="gpu-note">Henüz taranmadı</small></div><div class="spec"><span>İşletim sistemi</span><strong id="windows">—</strong><small>Windows derleme numarası</small></div></div><div class="device-bottom"><span id="devices">Cihazlar: —</span><span id="problems">Problemli cihazlar: —</span><span class="device-note" id="scan-time">Henüz taranmadı</span></div></section>
+<div class="section-toolbar"><div class="tablist" role="tablist" aria-label="Analiz görünümü"><button role="tab" aria-selected="true" aria-controls="overview" id="overview-tab" data-view="overview">Genel bakış</button><button role="tab" aria-selected="false" aria-controls="timeline" id="timeline-tab" tabindex="-1" data-view="timeline">Zaman çizelgesi</button></div><span class="demo-label" id="result-label">Sonuç bekleniyor</span></div>
+<section class="analysis-grid live-grid" id="overview" role="tabpanel" aria-labelledby="overview-tab">
+<article class="panel"><div class="panel-title"><h2>Son çökme</h2></div><span class="tag amber-tag" id="dump-status">Henüz taranmadı</span><div class="bugcode" id="bugcheck">—</div><dl class="live-details" id="crash-details"></dl><p class="panel-note">Modül tespiti tek başına kesin kök neden değildir.</p></article>
+<article class="panel"><div class="panel-title"><h2>Sürücüler ve bulgular</h2></div><div class="metric" id="driver-count">—</div><p class="panel-description">Motorun saydığı sürücülü cihazlar</p><p class="panel-note" id="driver-note">Henüz taranmadı.</p><div id="findings"></div><p class="panel-note" id="findings-note">Henüz taranmadı.</p></article>
+<article class="panel"><div class="panel-title"><h2>Olay geçmişi</h2></div><dl class="live-details" id="event-details"></dl><p class="panel-note">Seçili olay türlerinin tutulan geçmişteki sayılarıdır. Olay bulunması, tek başına arızanın nedenini kanıtlamaz.</p></article>
+</section>
+<section id="timeline" role="tabpanel" aria-labelledby="timeline-tab" hidden><div class="timeline-header"><div><span class="eyebrow">ÇÖKME ÇEVRESİNDEKİ OLAYLAR</span><h2>Zaman çizelgesi</h2><p id="timeline-note">Henüz taranmadı.</p></div></div><dl class="live-details" id="timeline-details"></dl></section>
+<section class="report-panel"><div class="report-heading"><div><h2>Ayrıntılı motor raporu</h2><p>Toplanan kanıtlar ve okunamayan verilere ilişkin açıklamalar.</p></div><button class="button" id="download-button" disabled>Sonucu indir</button></div><details id="raw-details"><summary>Metin raporunu göster</summary><p id="raw-empty">Henüz taranmadı.</p><p id="raw-language-note" hidden>Raw engine output (original language)</p><pre id="raw-report" translate="no" hidden></pre></details></section>
+<footer><span><span class="footer-mark">S</span>Veriden kanıta. Kanıttan teşhise.</span><span>Yerel tarama / v0.3</span></footer>
+</main>
+
+<script>/* Render only engine data. Use textContent for every value from the local API. */
+const EMPTY = 'Veri alınamadı';
+const EVENT_LABELS = {whea:'WHEA donanım kayıtları',kernel_power:'Beklenmeyen kapanma',bugcheck:'BugCheck',kernel_pnp:'Sürücü başlatma (PnP)',display:'Ekran sürücüsü',disk:'Disk',ntfs:'Dosya sistemi (NTFS)'};
+const DUMP_LABELS = {no_dumps:'Dump dosyası bulunamadı',unavailable:'Dump klasörüne erişilemedi',analysis_failed:'Dump analizi tamamlanamadı',partial:'Dump analizi kısmen tamamlandı',analyzed:'Dump analizi tamamlandı'};
+function display(value, suffix='') { return value === null || value === undefined || value === '' ? EMPTY : String(value) + suffix; }
+function validResult(value) {
+  if (!value || value.schema_version !== '1.0' || value.engine?.mode !== 'native' || typeof value.raw_report !== 'string') throw new Error('invalid_engine_schema');
+  for (const key of ['system','hardware','drivers','events','coverage']) if (!value[key] || typeof value[key] !== 'object' || Array.isArray(value[key])) throw new Error('invalid_engine_schema');
+  return value;
+}
+function errorMessage(code) {
+  return ({engine_not_found:'Tarama motoru bulunamadı. diagnosticengine.exe dosyasının paket klasöründe olduğunu kontrol et.',engine_start_failed:'Tarama motoru başlatılamadı. Servis penceresini kontrol et.',engine_timeout:'Tarama süre sınırını aştı. Yeniden deneyebilirsin.',scan_in_progress:'Başka bir tarama sürüyor. Tamamlanmasını bekleyip yeniden dene.',invalid_engine_json:'Motorun yanıtı okunamadı. Paketteki motor ve agent sürümlerinin eşleştiğini kontrol et.',invalid_engine_schema:'Motorun yanıt biçimi bu arayüzle uyumlu değil.',engine_failed:'Tarama motoru hata ile kapandı. Servis penceresini kontrol et.',engine_output_too_large:'Tarama raporu boyut sınırını aştı.',forbidden_origin:'Bu sayfanın servise erişimine izin verilmedi. Arayüzü Syspect Desktop üzerinden aç.',request_timeout:'İstek zaman aşımına uğradı. Yeniden deneyebilirsin.',network:'Servise ulaşılamadı. Syspect Desktop uygulamasını yeniden başlat.'})[code] || 'Tarama tamamlanamadı. Servis penceresini kontrol edip yeniden dene.';
+}
+if (typeof module !== 'undefined') module.exports = {display,validResult,errorMessage};
+if (typeof document !== 'undefined') {
+  const $ = id => document.getElementById(id);
+  const api = location.protocol === 'file:' ? 'http://127.0.0.1:37841' : location.origin;
+  let busy = false, result = null;
+  const put = (id, value) => { $(id).textContent = value; };
+  function rows(id, values) {
+    $(id).replaceChildren();
+    for (const [label,value] of values) {
+      const row=document.createElement('div'), term=document.createElement('dt'), detail=document.createElement('dd');
+      term.textContent=label; detail.textContent=value; row.append(term,detail); $(id).append(row);
+    }
+  }
+  function status(title,message,error=false) {
+    put('scan-state',title); put('scan-message',message);
+    document.querySelector('.connection-box').classList.toggle('has-error',error);
+  }
+  function render(data) {
+    result=data; $('download-button').disabled=!data;
+    const s=data?.system, c=data?.crash;
+    put('cpu', data ? display(s.cpu) : '—');
+    put('processors',data ? display(s.logical_processors,' mantıksal işlemci') : 'Henüz taranmadı');
+    put('architecture',data ? display(s.architecture,' mimarisi') : 'Henüz taranmadı');
+    put('ram',data ? display(s.ram_gb,' GB') : '—');
+    put('gpu',data ? display(s.gpu?.name) : '—');
+    put('gpu-note',data ? (s.gpu ? display(s.gpu.vram_gb,' GB') : 'Bu sürümde toplanmıyor') : 'Henüz taranmadı');
+    put('windows',data ? display(s.windows_build) : '—');
+    put('devices','Cihazlar: '+(data ? display(data.hardware.devices) : '—'));
+    put('problems','Problemli cihazlar: '+(data ? display(data.hardware.problematic_devices) : '—'));
+    const date=data?.created_at ? new Date(data.created_at) : null;
+    put('scan-time',date && !Number.isNaN(date.getTime()) ? date.toLocaleString(SyspectI18n.getLanguage()==='tr'?'tr-TR':'en-US') : 'Henüz taranmadı');
+    put('source-label',data ? 'Gerçek motor verisi' : 'Tarama bekleniyor');
+    put('result-label',data ? (data.status==='partial' ? 'Kısmi sonuç · eksik alanlar belirtilmiştir' : 'Tarama sonucu') : 'Sonuç bekleniyor');
+    put('dump-status',data ? (DUMP_LABELS[data.coverage.dump_status] || EMPTY) : 'Henüz taranmadı');
+    put('bugcheck',data ? display(c?.bugcheck) : '—');
+    rows('crash-details',[['Modül',display(c?.module)],['İşlem',display(c?.process)],['Çökme zamanı',display(c?.time)],['İstisna kodu',display(c?.exception_code)]]);
+    put('driver-count',data ? display(data.drivers.detected) : '—');
+    put('driver-note',data ? 'Sürücü sürümleri aşağıdaki metin raporunda bulunabilir. Güncellik karşılaştırması yapılmadı.' : 'Henüz taranmadı.');
+    $('findings').replaceChildren();
+    if (Array.isArray(data?.findings)) for (const item of data.findings) {
+      const line=document.createElement('p'); line.textContent=display(item.title)+': '+display(item.evidence); $('findings').append(line);
+    }
+    put('findings-note',!data ? 'Henüz taranmadı.' : Array.isArray(data.findings) ? (data.findings.length ? 'Bulgular motor tarafından raporlandı.' : 'Motor bu taramada bulgu raporlamadı.') : 'Ayrı bulgu verisi alınamadı. Motorun bulguları ve kapsamı aşağıdaki metin raporunda.');
+    rows('event-details',Object.entries(EVENT_LABELS).map(([key,label])=>[label,data ? display(data.events[key]) : '—']));
+    const timeline=data?.timeline;
+    put('timeline-note',!data ? 'Henüz taranmadı.' : timeline ? 'Motorun çökme çevresi özeti.' : 'Veri alınamadı. Zaman çizelgesi henüz ayrı olarak aktarılmıyor. Varsa zaman korelasyonunu aşağıdaki metin raporundan inceleyebilirsin.');
+    rows('timeline-details',timeline ? [['Çökme öncesi',display(timeline.before_crash)],['Çökme sonrası',display(timeline.after_crash)],['Yeniden başlatma / rapor',display(timeline.restart_or_report)]] : []);
+    $('raw-empty').hidden=!!data;
+    $('raw-language-note').hidden=!data;
+    $('raw-report').hidden=!data;
+    put('raw-report',data ? data.raw_report : '');
+  }
+  async function request(path,options={},timeout=4000) {
+    const controller=new AbortController(), timer=setTimeout(()=>controller.abort(),timeout);
+    try {
+      const response=await fetch(api+path,{...options,signal:controller.signal,cache:'no-store'});
+      let value;
+      try { value=await response.json(); } catch { throw new Error('invalid_engine_json'); }
+      if (!response.ok) throw new Error(value.error?.code || 'internal_error');
+      return value;
+    } catch (error) {
+      if (error.name==='AbortError') throw new Error('request_timeout');
+      if (error instanceof TypeError) throw new Error('network');
+      throw error;
+    } finally { clearTimeout(timer); }
+  }
+  async function checkConnection() {
+    if(busy) return;
+    $('connection-button').disabled=true;
+    $('scan-button').disabled=true;
+    try {
+      const health=await request('/api/v1/health');
+      if (!health.engine_available) throw new Error('engine_not_found');
+      if (health.engine_mode!=='native') throw new Error('invalid_engine_schema');
+      status(health.scan_in_progress ? 'Tarama servisi meşgul' : 'Tarama servisi hazır',health.scan_in_progress ? 'Başka bir tarama devam ediyor.' : 'Taramayı başlat düğmesiyle bilgisayarını inceleyebilirsin.');
+    } catch(error) { status('Bağlantı kurulamadı',errorMessage(error.message),true); }
+    finally { $('connection-button').disabled=busy; $('scan-button').disabled=busy; }
+  }
+  async function scan() {
+    if(busy) return;
+    busy=true; $('scan-button').disabled=true; $('connection-button').disabled=true;
+    $('scan-progress').hidden=false; $('overview').setAttribute('aria-busy','true');
+    put('scan-button','Taranıyor…'); render(null);
+    const started=Date.now();
+    status('Tarama sürüyor','Sistem, sürücüler ve olay kayıtları inceleniyor. Dump analizi birkaç dakika sürebilir.');
+    const timer=setInterval(()=>put('scan-state',`Tarama sürüyor · ${Math.floor((Date.now()-started)/1000)} sn`),1000);
+    try {
+      const data=validResult(await SyspectAccount.scanNative());
+      render(data);
+      document.getElementById('saved-scan-note').hidden=false;
+      status(data.status==='partial' ? 'Tarama tamamlandı · kısmi sonuç' : 'Tarama tamamlandı',data.coverage.dump_status==='analysis_failed' || data.coverage.dump_status==='unavailable' ? 'Dump okunamadı veya analiz edilemedi. Diğer sonuçlar hazır; ayrıntılar motor raporunda.' : 'Gerçek motor sonuçları aşağıda. Alınamayan veriler ayrıca belirtilmiştir.');
+    } catch(error) { status('Tarama tamamlanamadı',errorMessage(error.message),true); }
+    finally {
+      clearInterval(timer); busy=false; $('scan-button').disabled=false; $('connection-button').disabled=false;
+      $('scan-progress').hidden=true; $('overview').setAttribute('aria-busy','false'); put('scan-button','Yeniden tara');
+    }
+  }
+  function selectView(view) {
+    document.querySelectorAll('[data-view]').forEach(tab=>{const selected=tab.dataset.view===view;tab.setAttribute('aria-selected',String(selected));tab.tabIndex=selected?0:-1;});
+    for(const name of ['overview','timeline']) $(name).hidden=name!==view;
+  }
+  document.querySelectorAll('[data-view]').forEach(tab=>tab.addEventListener('click',()=>selectView(tab.dataset.view)));
+  document.querySelector('.tablist').addEventListener('keydown',event=>{
+    if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;
+    event.preventDefault(); const view=event.key==='Home'?'overview':event.key==='End'?'timeline':$('overview').hidden?'overview':'timeline';
+    selectView(view); $(view+'-tab').focus();
+  });
+  $('scan-button').addEventListener('click',scan); $('connection-button').addEventListener('click',checkConnection);
+  $('download-button').addEventListener('click',()=>{
+    if(!result)return;
+    const url=URL.createObjectURL(new Blob([JSON.stringify(result,null,2)],{type:'application/json'})), link=document.createElement('a');
+    link.href=url;link.download='syspect-scan.json';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+  });
+  window.addEventListener('syspect-language-change',()=>{if(result?.created_at)put('scan-time',new Date(result.created_at).toLocaleString(SyspectI18n.getLanguage()==='tr'?'tr-TR':'en-US'));});
+  render(null); checkConnection();
+  SyspectAccount.api('/scans?limit=100').then(async ({scans})=>{
+    const last=scans.find(s=>s.source==='native' && ['completed','partial'].includes(s.status));
+    if(last && !busy){const {scan}=await SyspectAccount.api('/scans/'+last.id); if(!busy){render(validResult(scan.result));status('Kayıtlı tarama','Son motor taraman yüklendi. Yeni bir tarama başlatabilirsin.');}}
+  }).catch(()=>{});
+}
+</script></body></html>

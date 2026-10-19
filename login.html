@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Syspect — Welcome Back</title>
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<style>@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;550;600;650;700&family=Manrope:wght@400;500;600;650;700;750;800&display=swap');
+:root{--bg:#f5f6f7;--paper:#fff;--ink:#1c2928;--muted:#747f80;--line:#e6eaea;--green:#24594d;--green-hover:#194638;--device-bg:#213f37;--pale:#eef5ed;--lime:#d8f1b0;--mono:ui-monospace,'Cascadia Code',Consolas,monospace}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font:16px/1.55 'DM Sans',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased}
+a,button{text-decoration:none;color:inherit;font:inherit;-webkit-tap-highlight-color:transparent}
+button:focus-visible,a:focus-visible{outline:3px solid #449b82;outline-offset:5px}
+svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.symbols{position:absolute;width:0;height:0;overflow:hidden}
+.topbar{height:90px;padding:0 4%;background:var(--paper);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:12px;color:var(--ink);font:800 29px 'Manrope',sans-serif;letter-spacing:-1.4px}
+.brand-icon{width:36px;height:36px;display:grid;place-items:center;background:var(--green);border-radius:10px;color:var(--lime)}
+.brand-icon svg{width:24px;height:24px;stroke-width:2}
+.brand-divider{width:1px;height:20px;background:#dce0df;margin:0 9px}
+.brand-caption{font:600 11px 'DM Sans',sans-serif;letter-spacing:1.6px;color:#87908f}
+.back-link{font-size:13px;font-weight:600;color:#4c6b58;padding:8px 14px;border-radius:7px;border:1px solid var(--line);background:#fafbfa;transition:background .2s,border-color .2s}
+.back-link:hover{background:var(--pale);border-color:#c8d8cc}
+.auth-wrapper{flex:1;display:flex;align-items:center;justify-content:center;padding:32px 20px}
+.auth-card{background:var(--paper);border:1px solid var(--line);border-radius:15px;padding:38px 36px;width:100%;max-width:440px;box-shadow:0 10px 25px #213f3709}
+.auth-header{margin-bottom:24px;border-bottom:1px solid var(--line);padding-bottom:18px}
+.eyebrow{font-size:11px;letter-spacing:1.6px;font-weight:700;color:#87918e;text-transform:uppercase;display:block;margin-bottom:6px}
+.auth-title{font:700 28px 'Manrope',sans-serif;margin-bottom:6px;letter-spacing:-1px;color:var(--ink)}
+.auth-subtitle{color:var(--muted);font-size:14px}
+.form-group{margin-bottom:16px}
+.form-label{display:block;font-size:12px;font-weight:650;margin-bottom:6px;color:var(--ink);letter-spacing:.2px}
+.form-input{width:100%;background:#fafbfa;border:1px solid var(--line);border-radius:7px;padding:11px 14px;color:var(--ink);font:15px 'DM Sans',sans-serif;transition:all .2s ease}
+.form-input:focus{outline:none;border-color:var(--green);background:var(--paper);box-shadow:0 0 0 3px rgba(36,89,77,.1)}
+.btn-submit{width:100%;background:var(--green);color:#fff;font-weight:650;font-size:15px;border:none;border-radius:7px;padding:13px 18px;margin-top:8px;cursor:pointer;transition:background .2s,transform .2s;display:inline-flex;align-items:center;justify-content:center;gap:10px}
+.btn-submit:hover{background:var(--green-hover);transform:translateY(-1px)}
+.auth-footer{text-align:center;margin-top:22px;padding-top:18px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+.auth-footer a{color:var(--green);font-weight:650}
+.auth-footer a:hover{text-decoration:underline}
+@media(max-width:650px){.topbar{height:72px}.brand-caption,.brand-divider{display:none}.auth-card{padding:28px 22px}}</style>
+<link rel="stylesheet" href="theme.css">
+<script src="theme.js"></script>
+<script src="i18n.js"></script>
+<link rel="stylesheet" href="account.css">
+<script src="account.js"></script>
+</head>
+<body>
+<svg class="symbols" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
+<symbol id="pulse" viewBox="0 0 24 24"><path d="M2 13h5l3-9 4 16 3-7h5"/></symbol>
+<symbol id="chip" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="3"/><rect x="9" y="9" width="6" height="6" rx="1"/><path d="M9 2v3m6-3v3M9 19v3m6-3v3M2 9h3m-3 6h3m14-6h3m-3 6h3"/></symbol>
+<symbol id="monitor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8m-4-4v4"/></symbol>
+<symbol id="arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+<symbol id="check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+<symbol id="alert" viewBox="0 0 24 24"><path d="m10 4-8 14a2 2 0 0 0 2 3h16a2 2 0 0 0 2-3L14 4a2.3 2.3 0 0 0-4 0Z"/><path d="M12 9v5m0 3v.1"/></symbol>
+<symbol id="layers" viewBox="0 0 24 24"><path d="m12 3 10 5-10 5L2 8l10-5Zm-10 9 10 5 10-5M2 16l10 5 10-5"/></symbol>
+<symbol id="clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+<symbol id="tool" viewBox="0 0 24 24"><path d="M14 5a6 6 0 0 0-7 8l-4 4a2.8 2.8 0 0 0 4 4l4-4a6 6 0 0 0 8-7l-4 3-4-4 3-4Z"/></symbol>
+<symbol id="close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
+<symbol id="info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v.1"/></symbol>
+</defs></svg>
+<header class="topbar">
+  <a href="index.html" class="brand"><span class="brand-icon"><svg><use href="#pulse"/></svg></span>syspect<span class="brand-divider"></span><span class="brand-caption">PC DIAGNOSTIC ENGINE</span></a>
+  <a href="index.html" class="back-link">← Back to Home</a>
+</header>
+<div class="auth-wrapper">
+  <div class="auth-card">
+    <div class="auth-header"><span class="eyebrow">WORKSPACE ACCESS</span><h2 class="auth-title">Welcome Back.</h2><p class="auth-subtitle">Sign in to access the diagnostic engine</p></div>
+    <form action="/api/v1/auth/login" method="post">
+      <div class="form-group"><label class="form-label">Email Address</label><input type="email" class="form-input" required placeholder="name@example.com"></div>
+      <div class="form-group"><label class="form-label">Password</label><input type="password" class="form-input" required placeholder="••••••••"></div>
+      <button type="submit" class="btn-submit">Sign In<svg style="width:16px;height:16px"><use href="#arrow"/></svg></button>
+    </form>
+    <div class="auth-footer">Don't have an account? <a href="register.html">Create Account</a></div>
+  </div>
+</div>
+</body>
+</html>

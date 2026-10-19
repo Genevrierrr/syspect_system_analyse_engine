@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Syspect — Slow Boot & System Lag</title>
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<style>@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;550;600;650;700&family=Manrope:wght@400;500;600;650;700;750;800&display=swap');
+:root{--bg:#f5f6f7;--paper:#fff;--ink:#1c2928;--muted:#747f80;--line:#e6eaea;--green:#24594d;--green-hover:#194638;--device-bg:#213f37;--pale:#eef5ed;--lime:#d8f1b0;--amber:#ae7630;--amber-bg:#fbf1e2;--danger:#b44335;--danger-bg:#fbeae8;--mono:ui-monospace,'Cascadia Code',Consolas,monospace}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font:16px/1.55 'DM Sans',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased}
+a,button{text-decoration:none;color:inherit;font:inherit;-webkit-tap-highlight-color:transparent}
+button:focus-visible,a:focus-visible{outline:3px solid #449b82;outline-offset:5px}
+svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.symbols{position:absolute;width:0;height:0;overflow:hidden}
+.topbar{height:90px;padding:0 4%;background:var(--paper);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:12px;color:var(--ink);font:800 29px 'Manrope',sans-serif;letter-spacing:-1.4px}
+.brand-icon{width:36px;height:36px;display:grid;place-items:center;background:var(--green);border-radius:10px;color:var(--lime)}
+.brand-icon svg{width:24px;height:24px;stroke-width:2}
+.brand-divider{width:1px;height:20px;background:#dce0df;margin:0 9px}
+.brand-caption{font:600 11px 'DM Sans',sans-serif;letter-spacing:1.6px;color:#87908f}
+.btn-home{font-size:13px;font-weight:600;color:#4c6b58;padding:8px 14px;border-radius:7px;border:1px solid var(--line);background:#fafbfa;transition:background .2s,border-color .2s}
+.btn-home:hover{background:var(--pale);border-color:#c8d8cc}
+.container{max-width:920px;margin:0 auto;padding:36px 20px 60px}
+.progress-container{background:var(--device-bg);color:#fff;border-radius:15px;padding:22px 28px;margin-bottom:24px;box-shadow:0 10px 25px #213f3709}
+.progress-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.progress-title{font-size:11px;font-weight:700;color:var(--lime);letter-spacing:1.6px;text-transform:uppercase}
+.progress-step{font:12px var(--mono);color:#b2c1b9}
+.progress-bar{height:6px;background:#ffffff19;border-radius:10px;overflow:hidden}
+.progress-fill{height:100%;background:var(--lime);border-radius:10px;transition:width .4s ease}
+.question-card,.results-card{background:var(--paper);border-radius:14px;padding:36px 38px;border:1px solid var(--line);box-shadow:0 10px 25px #213f3707;animation:slideUp .3s ease}
+@keyframes slideUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.step-label{display:inline-flex;align-items:center;gap:8px;background:var(--amber-bg);color:var(--amber);padding:5px 12px;border-radius:5px;font-size:12px;font-weight:650;margin-bottom:16px}
+.question-title{font:700 clamp(22px,2.2vw,28px)/1.3 'Manrope',sans-serif;letter-spacing:-.8px;margin-bottom:8px;color:var(--ink)}
+.question-subtitle{color:var(--muted);font-size:15px;margin-bottom:26px}
+.minidump-box{background:#f3f7ef;border:1px dashed #b8ccb9;border-radius:10px;padding:20px;text-align:center;margin-bottom:20px}
+.minidump-box p{font-size:13px;color:#4c6b58;margin-bottom:10px;font-weight:650}
+.file-input-wrapper{display:inline-block;position:relative}
+.file-input-wrapper input[type="file"]{position:absolute;left:0;top:0;opacity:0;width:100%;height:100%;cursor:pointer}
+.file-btn{background:var(--paper);border:1px solid #cdd9ce;color:var(--ink);padding:8px 16px;border-radius:7px;font:500 12px var(--mono);transition:.2s}
+.file-input-wrapper:hover .file-btn{border-color:var(--green);color:var(--green)}
+.code-search{width:100%;padding:13px 16px;background:#fafbfa;border:1px solid var(--line);border-radius:8px;color:var(--ink);font:14px var(--mono);margin-bottom:20px;transition:border-color .2s}
+.code-search:focus{outline:none;border-color:var(--green);background:var(--paper)}
+.input-group{margin-bottom:18px;text-align:left}
+.input-label{display:block;font-size:12px;color:#4c6b58;margin-bottom:6px;font-weight:700;letter-spacing:.4px;text-transform:uppercase}
+.custom-input,.custom-select{width:100%;padding:13px 15px;background:#fafbfa;border:1px solid var(--line);border-radius:8px;color:var(--ink);font:14px 'DM Sans',sans-serif;margin-bottom:10px}
+.custom-input:focus,.custom-select:focus{outline:none;border-color:var(--green);background:var(--paper)}
+.options{display:flex;flex-direction:column;gap:10px}
+.option{background:#fcfdfc;border:1px solid var(--line);border-radius:10px;padding:16px 20px;cursor:pointer;transition:all .2s ease;display:flex;align-items:center;gap:14px}
+.option:hover{border-color:#9ab3a6;background:#f6faf7}
+.option.selected{border-color:var(--green);background:var(--pale);box-shadow:0 0 0 1px var(--green)}
+.option-radio{width:20px;height:20px;border:1.5px solid #b5c2bc;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--paper)}
+.option.selected .option-radio{background:var(--green);border-color:var(--green)}
+.option.selected .option-radio::after{content:'✓';color:var(--lime);font-weight:bold;font-size:11px}
+.option-content{flex:1}
+.option-text{font:650 15px 'Manrope',sans-serif;color:var(--ink);margin-bottom:2px}
+.option-hint{font-size:13px;color:var(--muted);line-height:1.4}
+.nav-buttons{display:flex;justify-content:space-between;margin-top:28px;padding-top:20px;border-top:1px solid var(--line);gap:15px}
+.btn{padding:12px 24px;border-radius:7px;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:.2s}
+.btn-secondary{background:#f2f5f3;color:#4c6b58;border:1px solid #dce5df}
+.btn-secondary:hover{background:#e6ece8}
+.btn-primary{background:var(--green);color:#fff}
+.btn-primary:hover:not(:disabled){background:var(--green-hover);transform:translateY(-1px)}
+.btn-primary:disabled,.btn-diagnose:disabled{opacity:.45;cursor:not-allowed}
+.btn-diagnose{background:var(--green);width:100%;padding:14px 24px;font-size:15px;font-weight:650;color:#fff}
+.btn-diagnose:hover:not(:disabled){background:var(--green-hover)}
+.case-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+.case-id{color:var(--muted);font:600 13px var(--mono)}
+.severity-badge{display:inline-flex;align-items:center;gap:8px;padding:5px 12px;border-radius:4px;font-size:12px;font-weight:650}
+.severity-critical{background:var(--danger-bg);color:var(--danger)}
+.severity-moderate{background:var(--amber-bg);color:var(--amber)}
+.severity-minor{background:#f3f7ef;color:#5c7365}
+.system-profile{background:#fafbfa;border-radius:10px;padding:18px 20px;margin-bottom:24px;border:1px solid var(--line)}
+.section-title{font-size:11px;font-weight:700;color:#87918e;margin-bottom:14px;text-transform:uppercase;letter-spacing:1.4px}
+.profile-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:15px}
+.profile-item{display:flex;flex-direction:column;gap:2px}
+.profile-label{font-size:12px;color:var(--muted)}
+.profile-value{font:650 15px 'Manrope',sans-serif;color:var(--ink)}
+.diagnosis-main{background:var(--device-bg);color:#fff;border-radius:12px;padding:28px;text-align:center;margin:24px 0}
+.result-icon{font-size:42px;margin-bottom:10px}
+.result-title{font:700 24px 'Manrope',sans-serif;color:#fff;margin-bottom:8px;letter-spacing:-.6px}
+.result-desc{color:#c3d2c8;font-size:14px;max-width:540px;margin:0 auto;line-height:1.6}
+.evidence-box{background:#f3f7ef;border:1px solid #dde7d9;border-radius:10px;padding:20px;margin-bottom:26px}
+.evidence-list{list-style:none;display:flex;flex-direction:column;gap:10px}
+.evidence-item{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:#496355;line-height:1.5}
+.evidence-item::before{content:'✓';color:var(--green);font-weight:bold}
+.treatment-list{display:flex;flex-direction:column;gap:12px;margin-bottom:26px}
+.treatment-item{background:#fcfdfb;border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;align-items:flex-start;gap:14px}
+.treatment-number{width:24px;height:24px;border:1px solid #dde7d9;background:var(--pale);color:#5c7365;border-radius:50%;display:grid;place-items:center;font:600 11px var(--mono);flex-shrink:0}
+.treatment-text{flex:1;line-height:1.6;font-size:14px;color:var(--ink)}
+.btn-restart{margin-top:10px;width:100%;padding:14px;background:#f2f5f3;border:1px solid #dce5df;color:#4c6b58;font-weight:650;border-radius:7px;cursor:pointer;transition:.2s}
+.btn-restart:hover{background:var(--pale);border-color:var(--green);color:var(--green)}
+@media(max-width:640px){.topbar{height:72px}.brand-caption,.brand-divider{display:none}.question-card,.results-card{padding:22px}.nav-buttons{flex-direction:column;gap:10px}.btn{width:100%}}</style>
+<link rel="stylesheet" href="theme.css">
+<script src="theme.js"></script>
+<script src="i18n.js"></script>
+<link rel="stylesheet" href="account.css">
+<script src="account.js"></script>
+</head>
+<body>
+<svg class="symbols" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
+<symbol id="pulse" viewBox="0 0 24 24"><path d="M2 13h5l3-9 4 16 3-7h5"/></symbol>
+<symbol id="chip" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="3"/><rect x="9" y="9" width="6" height="6" rx="1"/><path d="M9 2v3m6-3v3M9 19v3m6-3v3M2 9h3m-3 6h3m14-6h3m-3 6h3"/></symbol>
+<symbol id="monitor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8m-4-4v4"/></symbol>
+<symbol id="arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+<symbol id="check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+<symbol id="alert" viewBox="0 0 24 24"><path d="m10 4-8 14a2 2 0 0 0 2 3h16a2 2 0 0 0 2-3L14 4a2.3 2.3 0 0 0-4 0Z"/><path d="M12 9v5m0 3v.1"/></symbol>
+<symbol id="layers" viewBox="0 0 24 24"><path d="m12 3 10 5-10 5L2 8l10-5Zm-10 9 10 5 10-5M2 16l10 5 10-5"/></symbol>
+<symbol id="clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+<symbol id="tool" viewBox="0 0 24 24"><path d="M14 5a6 6 0 0 0-7 8l-4 4a2.8 2.8 0 0 0 4 4l4-4a6 6 0 0 0 8-7l-4 3-4-4 3-4Z"/></symbol>
+<symbol id="close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
+<symbol id="info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v.1"/></symbol>
+</defs></svg>
+<header class="topbar">
+  <a class="brand" href="index.html"><span class="brand-icon"><svg><use href="#pulse"/></svg></span>syspect<span class="brand-divider"></span><span class="brand-caption">PC DIAGNOSTIC ENGINE</span></a>
+  <a href="dashboard.html" class="btn-home">← Back to Workspace</a>
+</header>
+<div class="container"><div id="app"></div></div>
+<script>
+const questionsSet = [
+  { id: 'sb_q1', step: 1, stepName: 'Boot Duration', stepIcon: '⏱️', title: 'How long does it take for the Windows desktop to appear?', subtitle: 'Timing from cold boot helps isolate mechanical delays from software layer bloat.',
+    options: [
+      { text: 'Under 15 seconds', hint: 'Excellent speed. Likely healthy NVMe drive configuration.', impacts: {} },
+      { text: '15 to 45 seconds', hint: 'Moderate delay. Usually caused by background startup apps.', impacts: { startupBloat: { score: 20, evidence: "Boot duration falls into the 15-45s margin (Potential startup apps pressure)." } } },
+      { text: '45 seconds to 2 minutes', hint: 'Noticeable lag. Indicates a bottleneck during system file loading.', impacts: { startupBloat: { score: 40, evidence: "Boot duration is significantly delayed (45-120s)." }, corruptOS: { score: 30, evidence: "Prolonged boot indicates potential system registry or file validation delays." } } },
+      { text: 'More than 2 minutes', hint: 'Critical slowdown. Highly indicative of mechanical drive bottlenecks or failing health.', impacts: { failingDrive: { score: 70, evidence: "Extreme boot time (>120s) points directly to mechanical disk latency or hardware sector decay." } } }
+    ]
+  },
+  { id: 'sb_q2', step: 2, stepName: 'Post-Desktop Usability', stepIcon: '🖥️', title: 'Can you use the PC immediately after the desktop icons load?', subtitle: 'Identifies if background services are choking your system resources at launch.',
+    options: [
+      { text: 'Yes, it responds instantly', hint: 'Background load is clear.', impacts: {} },
+      { text: 'No, it completely freezes/stutters for a few minutes', hint: 'System locks up during background initialization.', impacts: { startupBloat: { score: 40, evidence: "Desktop environment locks up immediately after login." }, failingDrive: { score: 40, evidence: "System lockup post-boot implies severe active disk loading queues." } } },
+      { text: 'No, the fans ramp up loudly with immediate high CPU use', hint: 'Cries for processing power right at boot.', impacts: { malwareInfection: { score: 60, evidence: "Abrupt idle CPU and fan activity upon boot indicates unauthorized background tasks." } } }
+    ]
+  },
+  { id: 'sb_q3', step: 3, stepName: 'Storage Architecture', stepIcon: '💾', title: 'What type of drive is Windows installed on?', subtitle: 'Mechanical drives lack the IOPS capacity required for modern Windows services.',
+    options: [
+      { text: 'SSD (NVMe or SATA)', hint: 'Solid state storage technology.', impacts: {} },
+      { text: 'HDD (Mechanical spinning disk)', hint: 'Traditional magnetic drive plates.', impacts: { failingDrive: { score: 80, evidence: "OS is running on a mechanical HDD, forcing massive queue lengths and 100% disk usage bugs." } } }
+    ]
+  },
+  { id: 'sb_q4', step: 4, stepName: 'Behavioral History', stepIcon: '📅', title: 'When did this lag/slowdown sequence begin?', subtitle: 'Helps correlate the system decay with a specific trigger event.',
+    options: [
+      { text: 'Immediately after a Windows or Driver update', hint: 'Corrupt installation layer.', impacts: { corruptOS: { score: 60, evidence: "System slowdown directly correlates with a recent Windows core/driver patch configuration." }, driverConflict: { score: 50, evidence: "Potential driver registry or service collision post-update." } } },
+      { text: 'After installing cracked or unverified software', hint: 'Potential payload activation.', impacts: { malwareInfection: { score: 80, evidence: "Slowdown timeline began after deploying unverified third-party/cracked installations." } } },
+      { text: 'It has been getting gradually worse over several months', hint: 'Natural decay or clutter build-up.', impacts: { failingDrive: { score: 40, evidence: "Gradual operational decay over months points to sequential hardware storage sector wear." }, startupBloat: { score: 30, evidence: "Accumulation of background application services over time." } } }
+    ]
+  },
+  { id: 'sb_q5', step: 5, stepName: 'Power Management Cycle', stepIcon: '🔌', title: 'Is there a noticeable speed difference between "Shut Down" and "Restart"?', subtitle: 'Windows handles kernel memory dumps differently across these cycles.',
+    options: [
+      { text: 'Yes, Cold Boot (Shut Down) is very slow, but "Restart" is fast', hint: 'Classic Fast Startup behavior.', impacts: { fastStartupBug: { score: 80, evidence: "System anomalies clear upon a soft reboot but persist on cold boot (Fast Startup corruption template)." } } },
+      { text: 'No, both cycles are consistently sluggish', hint: 'Persistent state problem.', impacts: {} }
+    ]
+  },
+  { id: 'sb_q6', step: 6, stepName: 'Memory Capacity', stepIcon: '🧠', title: 'What is the total physical memory (RAM) capacity of your system?', subtitle: 'Low memory forcing high reliance on virtual swap file storage page files.',
+    options: [
+      { text: '8 GB or less', hint: 'Critical for modern multi-threaded operating tasks.', impacts: { insufficientRam: { score: 60, evidence: "Total system RAM is 8GB or less, triggering constant virtual pagefile cache thrashing on disk." } } },
+      { text: '16 GB', hint: 'Optimal base standard.', impacts: {} },
+      { text: '32 GB or higher', hint: 'Abundant memory environment.', impacts: {} }
+    ]
+  },
+  { id: 'sb_q7', step: 7, stepName: 'Telemetry Data Input', stepIcon: '📊', title: 'Advanced Diagnostics (Optional Inputs)', subtitle: 'Provide values from Task Manager or CrystalDiskInfo for a high-precision report.',
+    customHTML: '<div class="input-group"><label class="input-label">Task Manager > Startup Apps Count:</label><select id="startup_count" class="custom-select"><option value="low">Under 5 Enabled Apps</option><option value="mid">5 to 10 Enabled Apps</option><option value="high">More than 10 Enabled Apps</option></select></div><div class="input-group"><label class="input-label">CrystalDiskInfo Drive Health Status:</label><select id="disk_health" class="custom-select"><option value="good">Good (100% / No warnings)</option><option value="caution">Caution (Yellow warning sectors detected)</option><option value="bad">Bad (Red failing status)</option><option value="unknown">I don\'t have CrystalDiskInfo installed</option></select></div>',
+    options: [{ text: 'Process inputs and compile telemetry metrics', hint: 'Finalizes the system lag calculation matrix.', impacts: {} }]
+  }
+];
+const diagnosesDB = {
+  startupBloat: { name: 'Excessive Startup Apps & Bloatware', icon: '🚀', desc: 'Too many high-impact applications (Discord, Steam, RGB/Control Centers) are initialization-locked, launching simultaneously during boot and choking disk/CPU pipelines.', treatments: ['Open Task Manager (Ctrl+Shift+Esc), navigate to "Startup Apps", and disable unneeded background services.', 'Uninstall competing system monitoring or duplicate vendor control centers.', 'Delay secondary application triggers via task scheduler configurations.'] },
+  malwareInfection: { name: 'Background Malware or Crypto-Miner Threat', icon: '🦠', desc: 'Unsolicited software hooks are hijacking your CPU/Disk threads immediately at startup to mine crypto or run telemetry commands, causing permanent lag.', treatments: ['Initiate a Full Scan utilizing Windows Defender offline mode.', 'Run a dedicated remediation cycle with Malwarebytes Free to scan root directories.', 'Verify unrecognized executable roots inside your Task Manager "Details" tab.'] },
+  failingDrive: { name: 'Storage Drive Sector Degradation or HDD Bottleneck', icon: '💾', desc: 'Your storage unit is either physically degrading (bad sectors, corrupted NAND controllers) or is a mechanical HDD unable to sustain modern Windows pagefile speeds.', treatments: ['Launch Command Prompt as Admin and run "chkdsk /f /r" to isolate damaged logical sectors.', 'Check disk SMART logs with CrystalDiskInfo. If labeled "Caution/Bad", clone data immediately.', 'Upgrade your operating system deployment sector to a dedicated NVMe or SATA SSD.'] },
+  corruptOS: { name: 'Corrupted Windows System Files', icon: '🪟', desc: 'Core Windows binaries or system registry configurations became corrupted following a interrupted patch lifecycle or forced shut down sequence.', treatments: ['Run "sfc /scannow" in an elevated command prompt to repair missing manifest files.', 'Execute "DISM /Online /Cleanup-Image /RestoreHealth" to replace broken system image segments.', 'Clear the update distribution path cache by resetting the SoftwareDistribution directory.'] },
+  driverConflict: { name: 'Sentry S0/Kernel Driver Conflict', icon: '🔄', desc: 'Critical third-party system drivers (frequently associated with anti-cheat tools, sound drivers, or RGB frameworks) are taking too long to link during the boot interface.', treatments: ['Perform a clean installation of primary platform drivers (GPU, Chipset) using DDU tools.', 'Isolate system services via Clean Boot configurations to pinpoint the failing driver string.', 'Verify if entering Safe Mode removes the system boot latency entirely.'] },
+  insufficientRam: { name: 'Low Memory Capacity Paging Trap', icon: '🧠', desc: 'Your machine lacks enough physical RAM allocation space, forcing Windows to aggressively dump active kernel workloads into the slower virtual disk Pagefile cache.', treatments: ['Limit concurrent background tabs and drop auto-boot overhead scripts.', 'Verify that your virtual memory allocation settings are handled automatically by Windows.', 'Consider expanding your dual-channel architecture footprint to 16GB minimum.'] },
+  fastStartupBug: { name: 'Windows Hybrid Fast Startup Bug', icon: '⚡', desc: 'Windows Fast Startup feature is dumping a corrupted hibernation image cache file (hiberfil.sys) onto the disk, looping errors across clean boot sequences.', treatments: ['Navigate to Control Panel > Power Options > "Choose what the power buttons do".', 'Click "Change settings that are currently unavailable", then uncheck "Turn on fast startup".', 'Open Admin CMD and run "powercfg -h off" to purge corrupted hibernation system tables entirely.'] }
+};
+let state = { currentScreen: 'questions', currentQuestion: 0, answers: {}, results: { caseId: '', diagnoses: {} } };
+function generateCaseId() { return 'SYS-LAG-' + Math.floor(10000 + Math.random() * 90000); }
+function calculateDiagnosis() {
+  state.results.diagnoses = {};
+  questionsSet.forEach(q => {
+    const idx = state.answers[q.id];
+    if (idx !== undefined) {
+      const opt = q.options[idx];
+      if (opt.impacts) Object.entries(opt.impacts).forEach(([k, d]) => {
+        if (!state.results.diagnoses[k]) state.results.diagnoses[k] = { score: 0, evidence: [] };
+        state.results.diagnoses[k].score += d.score;
+        state.results.diagnoses[k].evidence.push(d.evidence);
+      });
+    }
+  });
+  if (document.getElementById('startup_count') && document.getElementById('startup_count').value === 'high') {
+    if (!state.results.diagnoses['startupBloat']) state.results.diagnoses['startupBloat'] = { score: 0, evidence: [] };
+    state.results.diagnoses['startupBloat'].score += 35;
+    state.results.diagnoses['startupBloat'].evidence.push("Task Manager confirms >10 active startup applications enabled.");
+  }
+  if (document.getElementById('disk_health')) {
+    const dv = document.getElementById('disk_health').value;
+    if (dv === 'caution' || dv === 'bad') {
+      if (!state.results.diagnoses['failingDrive']) state.results.diagnoses['failingDrive'] = { score: 0, evidence: [] };
+      state.results.diagnoses['failingDrive'].score += (dv === 'bad' ? 90 : 45);
+      state.results.diagnoses['failingDrive'].evidence.push("CrystalDiskInfo hard telemetry flags drive health explicitly as [" + dv.toUpperCase() + "].");
+    }
+  }
+  state.results.caseId = generateCaseId();
+}
+function render() {
+  const app = document.getElementById('app');
+  app.innerHTML = state.currentScreen === 'questions' ? renderQuestion() : renderResults();
+  document.querySelectorAll('.option').forEach(opt => {
+    opt.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); opt.click(); } });
+    opt.addEventListener('click', () => {
+      state.answers[questionsSet[state.currentQuestion].id] = parseInt(opt.dataset.index);
+      render();
+    });
+  });
+}
+function renderQuestion() {
+  const q = questionsSet[state.currentQuestion];
+  const progress = (state.currentQuestion / questionsSet.length) * 100;
+  const sel = state.answers[q.id];
+  return '<div class="progress-container"><div class="progress-header"><span class="progress-title">DIAGNOSIS: SLOW BOOT & SYSTEM LAG</span><span class="progress-step">Step ' + (state.currentQuestion + 1) + ' / ' + questionsSet.length + '</span></div><div class="progress-bar"><div class="progress-fill" style="width:' + progress + '%"></div></div></div>' +
+    '<div class="question-card"><div class="step-label"><span>' + q.stepIcon + '</span>' + q.stepName + '</div><h2 class="question-title">' + q.title + '</h2><p class="question-subtitle">' + q.subtitle + '</p>' + (q.customHTML || '') +
+    '<div class="options">' + q.options.map((opt, idx) => '<div role="button" tabindex="0" class="option ' + (sel === idx ? 'selected' : '') + '" data-index="' + idx + '"><div class="option-radio"></div><div class="option-content"><div class="option-text">' + opt.text + '</div><div class="option-hint">' + opt.hint + '</div></div></div>').join('') + '</div>' +
+    '<div class="nav-buttons"><button class="btn btn-secondary" onclick="prevQuestion()" ' + (state.currentQuestion === 0 ? 'style="visibility:hidden"' : '') + '>Back</button>' +
+    (state.currentQuestion === questionsSet.length - 1 ? '<button class="btn btn-diagnose" onclick="showResults()" ' + (sel === undefined ? 'disabled' : '') + '>Analyze Engine</button>' : '<button class="btn btn-primary" onclick="nextQuestion()" ' + (sel === undefined ? 'disabled' : '') + '>Continue</button>') + '</div></div>';
+}
+function renderResults() {
+  calculateDiagnosis();
+  const sorted = Object.entries(state.results.diagnoses).sort((a, b) => b[1].score - a[1].score);
+  const primaryKey = sorted[0] ? sorted[0][0] : 'startupBloat';
+  const primaryData = sorted[0] ? sorted[0][1] : { score: 0, evidence: ["No prominent hardware bottlenecks or anomalous software behaviors flagged."] };
+  const meta = diagnosesDB[primaryKey];
+  const sev = primaryData.score >= 80 ? ['critical', 'Critical'] : primaryData.score >= 40 ? ['moderate', 'Moderate'] : ['minor', 'Minor'];
+  return '<div class="results-card"><div class="case-header"><div class="case-id">Latency Report #' + state.results.caseId + '</div><div class="severity-badge severity-' + sev[0] + '">Severity: ' + sev[1] + '</div></div>' +
+    '<div class="diagnosis-main"><div class="result-icon">' + meta.icon + '</div><div class="result-title">' + meta.name + '</div><div class="result-desc">' + meta.desc + '</div></div>' +
+    '<div class="evidence-box"><div class="section-title">Correlated Evidence Data</div><ul class="evidence-list">' + primaryData.evidence.map(e => '<li class="evidence-item">' + e + '</li>').join('') + '</ul></div>' +
+    '<div class="section-title">Targeted Remediation Steps</div><div class="treatment-list">' + meta.treatments.map((t, i) => '<div class="treatment-item"><div class="treatment-number">' + (i + 1) + '</div><div class="treatment-text">' + t + '</div></div>').join('') + '</div>' +
+    '<button class="btn btn-restart" onclick="restart()">Process New Boot Assessment</button></div>';
+}
+function nextQuestion() { if (state.currentQuestion < questionsSet.length - 1) { state.currentQuestion++; render(); } }
+function prevQuestion() { if (state.currentQuestion > 0) { state.currentQuestion--; render(); } }
+function showResults() { state.currentScreen = 'results'; render(); SyspectAccount.saveQuestionnaire('inputlag', state); }
+function restart() { state.currentScreen = 'questions'; state.currentQuestion = 0; state.answers = {}; render(); }
+render();
+</script>
+</body>
+</html>
